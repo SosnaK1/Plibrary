@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "285668361011",
+    "project_id": "plibrary-18d68",
+    "storage_bucket": "plibrary-18d68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285668361011:android:b664e9817857a57f27b446",
+        "android_client_info": {
+          "package_name": "com.jsosna.plibrary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285668361011-s4g4e0amdmnuc123p0keev3d095sd19k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0VVEH_jPu0MbS95Zu5Xy1H84a8RNdzCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285668361011-s4g4e0amdmnuc123p0keev3d095sd19k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "285668361011-p8qm3su7t6n7jgb6p79banq570heqqre.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jsosna.plibrary"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

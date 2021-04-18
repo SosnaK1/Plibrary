@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.plibrary">
+    package="com.jsosna.plibrary">
    <application
         android:label="plibrary"
         android:icon="@mipmap/ic_launcher">

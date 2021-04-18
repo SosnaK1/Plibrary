@@ -1,4 +1,4 @@
-package com.example.plibrary
+package com.jsosna.plibrary
 
 import io.flutter.embedding.android.FlutterActivity
 
