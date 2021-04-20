@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:plibrary/pages/sign_in/view/sign_in_page.dart';
 import 'package:plibrary/pages/sign_up/view/sign_up_page.dart';
 import 'package:plibrary/widgets/main_button.dart';
+import 'package:plibrary/widgets/main_logo_hero.dart';
 
 class WelcomePage extends StatelessWidget {
+  const WelcomePage({Key key}) : super(key: key);
+
   static Page page() => MaterialPage<void>(child: WelcomePage());
+
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => const WelcomePage());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +21,7 @@ class WelcomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-                child: FlutterLogo(style: FlutterLogoStyle.stacked, size: 200),
+                child: MainLogoHero(size: 200.0),
                 flex: 4),
             Expanded(
               flex: 2,
