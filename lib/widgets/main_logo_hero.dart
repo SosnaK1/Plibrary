@@ -9,6 +9,6 @@ class MainLogoHero extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
         tag: "main-logo",
-        child: FlutterLogo(style: FlutterLogoStyle.stacked, size: size));
+        child: FlutterLogo(size: size));
   }
 }
