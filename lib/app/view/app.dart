@@ -13,7 +13,7 @@ class App extends StatelessWidget {
   const App({
     Key key,
     AuthenticationRepository authenticationRepository,
-  })   : _authenticationRepository = authenticationRepository,
+  })  : _authenticationRepository = authenticationRepository,
         super(key: key);
 
   final AuthenticationRepository _authenticationRepository;
@@ -43,11 +43,6 @@ class AppView extends StatelessWidget {
       navigatorKey: _navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: theme,
-      //home: WelcomePage2(),
-      // home: FlowBuilder<AppStatus>(
-      //   state: context.select((AppBloc bloc) => bloc.state.status),
-      //   onGeneratePages: onGenerateAppViewPages,
-      // ),
       builder: (context, child) {
         return BlocListener<AppBloc, AppState>(
           listener: (context, state) {
@@ -71,7 +66,11 @@ class AppView extends StatelessWidget {
           child: child,
         );
       },
-      onGenerateRoute: (_) => SplashPage.route(),
+      onGenerateRoute: (settings) {
+        // TODO: Fix this
+        print("Route Generator Called");
+        return SplashPage.route();
+      },
     );
   }
 }

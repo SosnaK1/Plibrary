@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:formz/formz.dart';
 import 'package:plibrary/pages/sign_in/cubit/sign_in_cubit.dart';
 import 'package:plibrary/utils/toast_utils.dart';
@@ -7,6 +8,8 @@ import 'package:plibrary/widgets/back_button.dart';
 import 'package:plibrary/widgets/default_text_form_field.dart';
 import 'package:plibrary/widgets/main_button.dart';
 import 'package:plibrary/widgets/main_logo_hero.dart';
+
+import '../../../themes.dart';
 
 class SignInForm extends StatelessWidget {
   @override
@@ -54,7 +57,7 @@ class SignInForm extends StatelessWidget {
                   MainButton(
                     child: !state.status.isSubmissionInProgress
                         ? Text("Sign In".toUpperCase())
-                        : CircularProgressIndicator(),
+                        : SpinKitWave(color: accentColorDark, size: 30.0),
                     onPressed: () async {
                       if (!state.status.isValid) {
                         ToastUtils.showCustomToast(

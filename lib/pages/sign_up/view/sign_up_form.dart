@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:plibrary/pages/sign_up/cubit/sign_up_cubit.dart';
+import 'package:plibrary/themes.dart';
 import 'package:plibrary/utils/toast_utils.dart';
 import 'package:plibrary/widgets/back_button.dart';
 import 'package:plibrary/widgets/default_text_form_field.dart';
@@ -64,7 +66,7 @@ class SignUpForm extends StatelessWidget {
                   MainButton(
                     child: !state.status.isSubmissionInProgress
                         ? Text("Sign Up".toUpperCase())
-                        : CircularProgressIndicator(),
+                        : SpinKitWave(color: accentColorDark, size: 30.0),
                     onPressed: () async {
                       if (!state.status.isValid) {
                         ToastUtils.showCustomToast(

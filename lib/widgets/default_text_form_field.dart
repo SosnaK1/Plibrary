@@ -10,7 +10,7 @@ class DefaultTextFormField extends StatelessWidget {
   const DefaultTextFormField(
       {Key key,
       this.labelText,
-      this.obscureText=false,
+      this.obscureText = false,
       this.onChanged,
       this.errorText})
       : super(key: key);
@@ -31,6 +31,9 @@ class DefaultTextFormField extends StatelessWidget {
           border: OutlineInputBorder(),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: accentColorLight),
+              borderRadius: BorderRadius.all(Radius.circular(8.0))),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
               borderRadius: BorderRadius.all(Radius.circular(8.0)))),
     );
   }
