@@ -1,8 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
-import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:plibrary/pages/home/home.dart';
+import 'package:plibrary/pages/drawer_container.dart/drawer_container.dart';
 import 'package:plibrary/pages/splash/splash_page.dart';
 import 'package:plibrary/pages/welcome/welcome_page.dart';
 import 'package:plibrary/themes.dart';
@@ -49,7 +48,7 @@ class AppView extends StatelessWidget {
             switch (state.status) {
               case AppStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
+                  DrawerContainer.route(),
                   (route) => false,
                 );
                 break;

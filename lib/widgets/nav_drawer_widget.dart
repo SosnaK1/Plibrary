@@ -3,22 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plibrary/app/app.dart';
 import 'package:plibrary/themes.dart';
 
-import 'navigation_drawer.dart';
+import '../navigation_drawer/navigation_drawer.dart';
 
 class NavDrawerWidget extends StatelessWidget {
-
   // final String accountName;
   final String accountEmail;
 
   final List<_NavigationItem> _listItems = [
     _NavigationItem(null, null, null, type: NavigationItemType.header),
-    _NavigationItem(NavItem.page_one, "First Page", Icons.looks_one),
-    _NavigationItem(NavItem.page_two, "Second Page", Icons.looks_two),
-    _NavigationItem(NavItem.page_three, "Third Page", Icons.looks_3),
-    _NavigationItem(NavItem.page_four, "Fourth Page", Icons.looks_4),
-    _NavigationItem(NavItem.page_five, "Fifth Page", Icons.looks_5),
-    _NavigationItem(NavItem.page_six, "Sixth Page", Icons.looks_6),
+    _NavigationItem(NavItem.home, "Home", Icons.home),
     _NavigationItem(null, null, null, type: NavigationItemType.divider),
+    _NavigationItem(NavItem.movies, "Movies", Icons.movie),
+    _NavigationItem(NavItem.series, "Series", Icons.auto_awesome_motion),
+    _NavigationItem(NavItem.books, "Books", Icons.menu_book),
+    _NavigationItem(NavItem.games, "Games", Icons.gamepad),
+    _NavigationItem(null, null, null, type: NavigationItemType.divider),
+    _NavigationItem(NavItem.settings, "Settings", Icons.settings),
     _NavigationItem(null, "Log Out", Icons.logout,
         type: NavigationItemType.logout)
   ];
@@ -57,12 +57,12 @@ class NavDrawerWidget extends StatelessWidget {
         return _makeLogoutItem(data);
         break;
     }
+    return null;
   }
 
   Widget _makeHeaderItem() => UserAccountsDrawerHeader(
-        accountName: Text("accountName", style: TextStyle(color: Colors.white)),
-        accountEmail:
-            Text(accountEmail, style: TextStyle(color: Colors.white)),
+        accountName: Text("", style: TextStyle(color: Colors.white)),
+        accountEmail: Text(accountEmail, style: TextStyle(color: Colors.white)),
         decoration: BoxDecoration(color: Colors.blueGrey),
         currentAccountPicture: CircleAvatar(
           backgroundColor: Colors.white,

@@ -4,7 +4,7 @@ import 'nav_drawer_event.dart';
 import 'nav_drawer_state.dart';
 
 class NavDrawerBloc extends Bloc<NavDrawerEvent, NavDrawerState> {
-  NavDrawerBloc() : super(NavDrawerState(NavItem.page_one));
+  NavDrawerBloc() : super(NavDrawerState(NavItem.home));
 
   
   @override
