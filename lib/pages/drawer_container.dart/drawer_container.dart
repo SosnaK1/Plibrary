@@ -31,7 +31,7 @@ class _DrawerContainerState extends State<DrawerContainer> {
   void initState() {
     super.initState();
     _bloc = NavDrawerBloc();
-    _content = _bodyForState(_bloc.state);
+    _content = _bodyForState(_bloc.state.selectedItem);
   }
 
   @override
@@ -42,7 +42,7 @@ class _DrawerContainerState extends State<DrawerContainer> {
           child: BlocConsumer<NavDrawerBloc, NavDrawerState>(
               listener: (BuildContext context, NavDrawerState state) {
             setState(() {
-              _content = _bodyForState(state);
+              _content = _bodyForState(state.selectedItem);
             });
           }, builder: (context, state) {
             return Scaffold(
@@ -51,6 +51,7 @@ class _DrawerContainerState extends State<DrawerContainer> {
                 appBar: AppBar(
                   title: Text(_titleForState(state.selectedItem)),
                 ),
+                floatingActionButton: _fabForState(state.selectedItem, context),
                 body: AnimatedSwitcher(
                     switchInCurve: Curves.easeInExpo,
                     switchOutCurve: Curves.easeOutExpo,
@@ -86,8 +87,8 @@ String _titleForState(NavItem state) {
   }
 }
 
-Widget _bodyForState(NavDrawerState state) {
-  switch (state.selectedItem) {
+Widget _bodyForState(NavItem state) {
+  switch (state) {
     case NavItem.home:
       return HomePage();
       break;
@@ -105,6 +106,28 @@ Widget _bodyForState(NavDrawerState state) {
       break;
     case NavItem.settings:
       return SettingsPage();
+      break;
+    default:
+      return null;
+  }
+}
+
+FloatingActionButton _fabForState(NavItem state, BuildContext context) {
+  switch (state) {
+    case NavItem.home:
+      return HomePage().homeFAB(context);
+      break;
+    case NavItem.movies:
+      return MoviesPage().moviesFAB(context);
+      break;
+    case NavItem.series:
+      return SeriesPage().seriesFAB(context);
+      break;
+    case NavItem.books:
+      return BooksPage().booksFAB(context);
+      break;
+    case NavItem.games:
+      return GamesPage().gamesFAB(context);
       break;
     default:
       return null;

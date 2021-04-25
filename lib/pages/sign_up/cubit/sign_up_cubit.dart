@@ -2,14 +2,17 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:plibrary/database_service/database_repository.dart';
 import 'package:plibrary/forms/forms.dart';
 
 part 'sign_up_state.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit(this._authenticationRepository) : super(const SignUpState());
+  SignUpCubit(this._authenticationRepository, this._databaseRepository)
+      : super(const SignUpState());
 
   final AuthenticationRepository _authenticationRepository;
+  final DatabaseRepository _databaseRepository;
 
   void emailChanged(String value) {
     final email = Email.dirty(value);
@@ -63,6 +66,9 @@ class SignUpCubit extends Cubit<SignUpState> {
         email: state.email.value,
         password: state.password.value,
       );
+
+      _databaseRepository.generateLibraryDirectories();
+
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on Exception {
       emit(state.copyWith(status: FormzStatus.submissionFailure));

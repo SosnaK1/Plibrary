@@ -12,6 +12,7 @@ dependencies:
   authentication_repository:
     path: packages/authentication_repository
   bloc: ^7.0.0
+  cloud_firestore: ^1.0.6
   cupertino_icons: ^1.0.2
   equatable: ^2.0.0
   firebase_auth: ^1.0.1

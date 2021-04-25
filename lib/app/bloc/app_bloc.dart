@@ -30,6 +30,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       yield _mapUserChangedToState(event, state);
     } else if (event is AppLogoutRequested) {
       _authenticationRepository.logOut();
+    } else if (event is AppUserDeleteRequested) {
+      _authenticationRepository.deleteUser();
     }
   }
 

@@ -1,6 +1,8 @@
 import 'package:authentication_repository/authentication_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plibrary/database_service/database_repository.dart';
 import 'package:plibrary/pages/drawer_container.dart/drawer_container.dart';
 import 'package:plibrary/pages/splash/splash_page.dart';
 import 'package:plibrary/pages/welcome/welcome_page.dart';
@@ -25,7 +27,10 @@ class App extends StatelessWidget {
         create: (_) => AppBloc(
           authenticationRepository: _authenticationRepository,
         ),
-        child: AppView(),
+        child: RepositoryProvider(
+          create: (context) => DatabaseRepository(_authenticationRepository, FirebaseFirestore.instance),
+          child: AppView(),
+        ),
       ),
     );
   }

@@ -7,7 +7,9 @@ import 'package:meta/meta.dart';
 import 'models/models.dart';
 
 class SignUpFailure implements Exception {}
+
 class LogInWithEmailAndPasswordFailure implements Exception {}
+
 class LogOutFailure implements Exception {}
 
 class AuthenticationRepository {
@@ -86,6 +88,10 @@ class AuthenticationRepository {
     } on Exception {
       throw LogOutFailure();
     }
+  }
+
+  Future<void> deleteUser() async {
+    _firebaseAuth.currentUser.delete();
   }
 }
 

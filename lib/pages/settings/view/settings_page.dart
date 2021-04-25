@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plibrary/app/app.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key key}) : super(key: key);
@@ -6,7 +8,17 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Settings!"),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Settings!"),
+          ElevatedButton(
+              onPressed: () {
+                BlocProvider.of<AppBloc>(context).add(AppUserDeleteRequested());
+              },
+              child: Text("Delete User"))
+        ],
+      ),
     );
   }
 }
