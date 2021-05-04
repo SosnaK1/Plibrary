@@ -71,8 +71,6 @@ class AppView extends StatelessWidget {
         );
       },
       onGenerateRoute: (settings) {
-        // TODO: Fix this
-        print("Route Generator Called");
         return SplashPage.route();
       },
     );
