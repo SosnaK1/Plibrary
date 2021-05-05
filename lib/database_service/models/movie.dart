@@ -1,29 +1,52 @@
-enum Genre {
-  thriller,
-  horror,
-  adventure,
-}
+// enum MovieGenre {
+//   Action,
+//   Adventure,
+//   Animation,
+//   Biography,
+//   Comedy,
+//   Crime,
+//   Documentary,
+//   Drama,
+//   Family,
+//   Fantasy,
+//   Film_Noir,
+//   History,
+//   Horror,
+//   Music,
+//   Musical,
+//   Mystery,
+//   Romance,
+//   SciFi,
+//   Short_Film,
+//   Sport,
+//   Superhero,
+//   Thriller,
+//   War,
+//   Western
+// }
+
+// extension ParseToString on MovieGenre {
+//   String toShortString() {
+//     return this.toString().split('.').last;
+//   }
+// }
+
+// T enumFromString<T>(Iterable<T> values, String value) {
+//   return values.firstWhere((type) => type.toString().split(".").last == value,
+//       orElse: () => null);
+// }
 
 class Movie {
-  final String id;
-  final Genre type;
   final String title;
   final String director;
   final String imageURL;
-  final String score;
+  final double score;
 
   const Movie(
-      {this.id,
-      this.type,
-      this.title,
-      this.director,
-      this.imageURL,
-      this.score});
+      {this.title, this.director, this.imageURL, this.score});
 
-  Movie.fromMap(Map<String, dynamic> data, String id)
+  Movie.fromMap(Map<String, dynamic> data)
       : this(
-            id: id,
-            type: Genre.values[0],
             title: data['title'],
             director: data['director'],
             imageURL: data['image'],
@@ -31,8 +54,6 @@ class Movie {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'type': type.index,
       'title': title,
       'director': director,
       'imageURL': imageURL,

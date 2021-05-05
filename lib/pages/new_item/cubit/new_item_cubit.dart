@@ -17,18 +17,37 @@ class NewItemCubit extends Cubit<NewItemState> {
   }
 
   void titleChanged(String value) {
-    emit(state.copyWith(title: Title.dirty(value)));
+    final title = Title.dirty(value);
+    emit(state.copyWith(
+        title: title,
+        status: Formz.validate([
+          title,
+        ])));
+  }
+
+  void directorChanged(String value) {
+    emit(state.copyWith(director: value));
+  }
+
+  void scoreChanged(double value) {
+    emit(state.copyWith(score: value));
   }
 
   Future<void> newItemSubmitted() async {
-    Movie movie = Movie(
-        id: "2",
-        type: Genre.thriller,
-        title: "Orphan 2",
-        director: "Deniro",
-        imageURL: null,
-        score: "4");
+    emit(state.copyWith(status: FormzStatus.submissionInProgress));
 
-    await _databaseRepository.addNewMovie(movie);
+    Movie movie = Movie(
+        title: state.title.value,
+        director: state.director,
+        imageURL: null,
+        score: state.score);
+
+    try {
+      await _databaseRepository.addNewMovie(movie);
+
+      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+    } on Exception {
+      emit(state.copyWith(status: FormzStatus.submissionFailure));
+    }
   }
 }

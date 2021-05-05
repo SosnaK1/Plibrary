@@ -8,6 +8,6 @@ class Title extends FormzInput<String, TitleValidationError> {
 
   @override
   TitleValidationError validator(String value) {
-    return value.length >= 6 ? null : TitleValidationError.invalid;
+    return value.length > 0 ? null : TitleValidationError.invalid;
   }
 }

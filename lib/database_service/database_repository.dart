@@ -29,7 +29,7 @@ class DatabaseRepository {
         .collection('users')
         .doc(_authenticationRepository.currentUser.id)
         .collection('movies')
-        .doc(movie.id)
+        .doc(movie.hashCode.toString())
         .set(movie.toMap());
   }
 
@@ -53,7 +53,7 @@ class DatabaseRepository {
         .snapshots()
         .map((snapshot) {
       return snapshot.docs
-          .map((document) => Movie.fromMap(document.data(), "1"))
+          .map((document) => Movie.fromMap(document.data()))
           .toList();
     });
   }

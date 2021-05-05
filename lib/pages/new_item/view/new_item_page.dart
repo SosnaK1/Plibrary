@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:plibrary/database_service/database_repository.dart';
+import 'package:plibrary/database_service/models/movie.dart';
 import 'package:plibrary/pages/new_item/cubit/new_item_cubit.dart';
+import 'package:plibrary/utils/toast_utils.dart';
 import 'package:plibrary/widgets/default_text_form_field.dart';
+import 'package:plibrary/widgets/main_button.dart';
+import 'package:formz/formz.dart';
+
+import '../../../themes.dart';
 
 class NewItemPage extends StatelessWidget {
   const NewItemPage({Key key}) : super(key: key);
@@ -20,7 +27,14 @@ class NewItemPage extends StatelessWidget {
           title: Text("New Item"),
         ),
         body: BlocConsumer<NewItemCubit, NewItemState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state.status == FormzStatus.submissionFailure) {
+              ToastUtils.showCustomToast(context, "Authentication Failed");
+            } else if (state.status == FormzStatus.submissionSuccess) {
+              print("Dodano");
+              Navigator.pop(context);
+            }
+          },
           builder: (context, state) {
             return Center(
               child: Padding(
@@ -43,21 +57,46 @@ class NewItemPage extends StatelessWidget {
                         );
                       }).toList(),
                     ),
-                    SizedBox(height: 40,),
+                    SizedBox(
+                      height: 40,
+                    ),
                     DefaultTextFormField(
                       labelText: "Title",
                       onChanged: (String newValue) {
-context
-                            .read<NewItemCubit>()
-                            .titleChanged(newValue);
+                        context.read<NewItemCubit>().titleChanged(newValue);
                       },
-                      errorText: "Invalid Title!",
+                      errorText: state.title.invalid ? "Invalid Title!" : null,
                     ),
-                    ElevatedButton(
-                        onPressed: () {
+                    DefaultTextFormField(
+                        labelText: "Director",
+                        onChanged: (String newValue) {
+                          context
+                              .read<NewItemCubit>()
+                              .directorChanged(newValue);
+                        }),
+                    Slider(
+                        max: 5.0,
+                        divisions: 5,
+                        value: state.score,
+                        onChanged: (double newValue) {
+                          context.read<NewItemCubit>().scoreChanged(newValue);
+                        }),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    MainButton(
+                      child: !state.status.isSubmissionInProgress
+                          ? Text("Add".toUpperCase())
+                          : SpinKitWave(color: accentColorDark, size: 30.0),
+                      onPressed: () async {
+                        if (!state.status.isValid) {
+                          ToastUtils.showCustomToast(
+                              context, "Please fill all the fields");
+                        } else if (state.status.isValidated) {
                           context.read<NewItemCubit>().newItemSubmitted();
-                        },
-                        child: Text("Add"))
+                        }
+                      },
+                    )
                   ],
                 ),
               ),
