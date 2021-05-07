@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:plibrary/pages/sign_in/view/sign_in_page.dart';
 import 'package:plibrary/pages/sign_up/view/sign_up_page.dart';
@@ -16,24 +17,43 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 40,),
+              Expanded(
                 child: MainLogoHero(size: 200.0),
-                flex: 4),
-            Expanded(
-              flex: 2,
-              child: Column(
-                children: [
-                  _SignInButton(),
-                  SizedBox(height: 30),
-                  _SignUpButton(),
-                ],
+                flex: 1,
               ),
-            )
-          ],
+              Expanded(
+                  child: AnimatedTextKit(repeatForever: true, animatedTexts: [
+                FlickerAnimatedText('PLibrary',
+                    textStyle: TextStyle(
+                      fontSize: 44,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 7.0,
+                          color: Colors.white,
+                          offset: Offset(0, 0),
+                        ),
+                      ],
+                    ),
+                    speed: Duration(seconds: 3))
+              ]), flex: 1,),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    _SignInButton(),
+                    SizedBox(height: 30),
+                    _SignUpButton(),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

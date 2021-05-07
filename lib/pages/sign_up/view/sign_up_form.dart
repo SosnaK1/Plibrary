@@ -17,7 +17,10 @@ class SignUpForm extends StatelessWidget {
         body: BlocConsumer<SignUpCubit, SignUpState>(
       listener: (context, state) {
         if (state.status == FormzStatus.submissionFailure) {
-          ToastUtils.showCustomToast(context, "Authentication Failed");
+          showErrorToast(context, "Authentication Failed");
+        }
+        if (state.status == FormzStatus.submissionSuccess) {
+          showSuccessToast(context, "Succesfully Sign Up!");
         }
       },
       builder: (context, state) {
@@ -69,8 +72,7 @@ class SignUpForm extends StatelessWidget {
                         : SpinKitWave(color: accentColorDark, size: 30.0),
                     onPressed: () async {
                       if (!state.status.isValid) {
-                        ToastUtils.showCustomToast(
-                            context, "Please fill all the fields");
+                        showErrorToast(context, "Please fill all the fields");
                       } else if (state.status.isValidated) {
                         BlocProvider.of<SignUpCubit>(context)
                             .registrationFormSubmitted();

@@ -29,7 +29,7 @@ class NewItemPage extends StatelessWidget {
         body: BlocConsumer<NewItemCubit, NewItemState>(
           listener: (context, state) {
             if (state.status == FormzStatus.submissionFailure) {
-              ToastUtils.showCustomToast(context, "Authentication Failed");
+              showErrorToast(context, "Authentication Failed");
             } else if (state.status == FormzStatus.submissionSuccess) {
               print("Dodano");
               Navigator.pop(context);
@@ -75,6 +75,7 @@ class NewItemPage extends StatelessWidget {
                               .directorChanged(newValue);
                         }),
                     Slider(
+                      activeColor: accentColor,
                         max: 5.0,
                         divisions: 5,
                         value: state.score,
@@ -90,7 +91,7 @@ class NewItemPage extends StatelessWidget {
                           : SpinKitWave(color: accentColorDark, size: 30.0),
                       onPressed: () async {
                         if (!state.status.isValid) {
-                          ToastUtils.showCustomToast(
+                          showErrorToast(
                               context, "Please fill all the fields");
                         } else if (state.status.isValidated) {
                           context.read<NewItemCubit>().newItemSubmitted();
