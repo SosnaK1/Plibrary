@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:plibrary/database_service/database_repository.dart';
 import 'package:plibrary/database_service/models/movie.dart';
 import 'package:plibrary/forms/models/models.dart';
+import 'package:uuid/uuid.dart';
 
 part 'new_item_state.dart';
 
@@ -36,10 +37,12 @@ class NewItemCubit extends Cubit<NewItemState> {
   Future<void> newItemSubmitted() async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
 
+    var uuid = Uuid();
+
     Movie movie = Movie(
+        uuid: uuid.v1(),
         title: state.title.value,
         director: state.director,
-        imageURL: null,
         score: state.score);
 
     try {

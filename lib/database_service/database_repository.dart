@@ -29,7 +29,7 @@ class DatabaseRepository {
         .collection('users')
         .doc(_authenticationRepository.currentUser.id)
         .collection('movies')
-        .doc(movie.hashCode.toString())
+        .doc(movie.uuid)
         .set(movie.toMap());
   }
 
@@ -44,6 +44,15 @@ class DatabaseRepository {
   // Future addNewGame(String uid, Game game) async {
 
   // }
+
+  Future deleteMovie(Movie movie) async {
+    await _firestore
+        .collection('users')
+        .doc(_authenticationRepository.currentUser.id)
+        .collection('movies')
+        .doc(movie.uuid)
+        .delete();
+  }
 
   Stream<List<Movie>> getMovies() {
     return _firestore

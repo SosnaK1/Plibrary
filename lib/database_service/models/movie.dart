@@ -37,26 +37,28 @@
 // }
 
 class Movie {
+  final String uuid;
   final String title;
   final String director;
-  final String imageURL;
+  final String image;
   final double score;
 
-  const Movie(
-      {this.title, this.director, this.imageURL, this.score});
+  const Movie({this.uuid, this.title, this.director, this.image, this.score});
 
   Movie.fromMap(Map<String, dynamic> data)
       : this(
+            uuid: data['uuid'],
             title: data['title'],
             director: data['director'],
-            imageURL: data['image'],
+            image: data['image'],
             score: data['score']);
 
   Map<String, dynamic> toMap() {
     return {
+      'uuid': uuid,
       'title': title,
       'director': director,
-      'imageURL': imageURL,
+      'image': image,
       'score': score
     };
   }

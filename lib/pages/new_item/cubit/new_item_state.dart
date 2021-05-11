@@ -25,6 +25,7 @@ class NewItemState extends Equatable {
       Title title,
       String director,
       double score,
+      String imagePath,
       FormzStatus status}) {
     return NewItemState(
         selectedItemType: selectedItemType ?? this.selectedItemType,
