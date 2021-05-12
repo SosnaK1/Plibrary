@@ -45,6 +45,9 @@ class NewItemCubit extends Cubit<NewItemState> {
     emit(state.copyWith(movieDescription: newValue));
   }
 
+  void seenChanged(bool newValue) {
+    emit(state.copyWith(seen: newValue));
+  }
 
   void scoreChanged(double value) {
     emit(state.copyWith(score: value));
@@ -63,6 +66,7 @@ class NewItemCubit extends Cubit<NewItemState> {
             director: state.movieDirector,
             genre: state.movieGenre,
             description: state.movieDescription,
+            seen: state.seen,
             score: state.score);
 
         await _databaseRepository.addNewMovie(movie);

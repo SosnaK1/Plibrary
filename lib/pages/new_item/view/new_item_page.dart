@@ -79,10 +79,14 @@ class _NewItemPageState extends State<NewItemPage> {
                       }).toList(),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
                     if (state.selectedItemType == "Movies")
                       movieFields(context, state),
+                    seenScoreWidget(context, state),
+                    SizedBox(
+                      height: 30,
+                    ),
                     MainButton(
                       child: !state.status.isSubmissionInProgress
                           ? Text("Add".toUpperCase())
@@ -121,14 +125,6 @@ Widget movieFields(BuildContext context, NewItemState state) {
           onChanged: (String newValue) {
             context.read<NewItemCubit>().movieDirectorChanged(newValue);
           }),
-      Slider(
-          activeColor: accentColor,
-          max: 5.0,
-          divisions: 5,
-          value: state.score,
-          onChanged: (double newValue) {
-            context.read<NewItemCubit>().scoreChanged(newValue);
-          }),
       SizedBox(
         height: 20,
       ),
@@ -155,8 +151,33 @@ Widget movieFields(BuildContext context, NewItemState state) {
         },
       ),
       SizedBox(
-        height: 40,
+        height: 20,
       ),
+    ],
+  );
+}
+
+Widget seenScoreWidget(BuildContext context, NewItemState state) {
+  return Column(
+    children: [
+      Text(
+        "Seen",
+        style: TextStyle(fontSize: 20.0),
+      ),
+      Checkbox(
+          value: state.seen,
+          onChanged: (value) {
+            context.read<NewItemCubit>().seenChanged(value);
+          }),
+      if (state.seen)
+        Slider(
+            activeColor: accentColor,
+            max: 5.0,
+            divisions: 5,
+            value: state.score,
+            onChanged: (double newValue) {
+              context.read<NewItemCubit>().scoreChanged(newValue);
+            }),
     ],
   );
 }

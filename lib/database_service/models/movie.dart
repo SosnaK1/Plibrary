@@ -43,6 +43,7 @@ class Movie {
   final String director;
   final MovieGenre genre;
   final String description;
+  final bool seen;
   final double score;
 
   const Movie(
@@ -51,6 +52,7 @@ class Movie {
       this.director,
       this.genre,
       this.description,
+      this.seen,
       this.score});
 
   Movie.fromMap(Map<String, dynamic> data)
@@ -60,6 +62,7 @@ class Movie {
             director: data['director'],
             genre: movieGenreFromString(data['genre']),
             description: data['description'],
+            seen: data['seen'],
             score: data['score']);
 
   Map<String, dynamic> toMap() {
@@ -69,6 +72,7 @@ class Movie {
       'director': director,
       'genre': genre.toShortString(),
       'description': description,
+      'seen': seen,
       'score': score
     };
   }

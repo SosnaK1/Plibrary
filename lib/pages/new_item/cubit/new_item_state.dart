@@ -9,6 +9,8 @@ class NewItemState extends Equatable {
     this.movieDirector = "",
     this.movieGenre = MovieGenre.Action,
     this.movieDescription = "",
+    
+    this.seen = false,
     this.score = 0,
     this.status = FormzStatus.pure,
   });
@@ -20,6 +22,7 @@ class NewItemState extends Equatable {
   final MovieGenre movieGenre;
   final String movieDescription;
 
+  final bool seen;
   final double score;
   final FormzStatus status;
 
@@ -28,12 +31,11 @@ class NewItemState extends Equatable {
   @override
   List<Object> get props => [
         selectedItemType,
-
         movieTitle,
         movieDirector,
         movieGenre,
         movieDescription,
-        
+        seen,
         score,
         status
       ];
@@ -44,6 +46,7 @@ class NewItemState extends Equatable {
       String movieDirector,
       MovieGenre movieGenre,
       String movieDescription,
+      bool seen,
       double score,
       String imagePath,
       FormzStatus status}) {
@@ -53,6 +56,7 @@ class NewItemState extends Equatable {
         movieDirector: movieDirector ?? this.movieDirector,
         movieGenre: movieGenre ?? this.movieGenre,
         movieDescription: movieDescription ?? this.movieDescription,
+        seen: seen ?? this.seen,
         score: score ?? this.score,
         status: status ?? this.status);
   }
