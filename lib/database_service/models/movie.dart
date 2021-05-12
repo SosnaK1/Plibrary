@@ -1,56 +1,65 @@
-// enum MovieGenre {
-//   Action,
-//   Adventure,
-//   Animation,
-//   Biography,
-//   Comedy,
-//   Crime,
-//   Documentary,
-//   Drama,
-//   Family,
-//   Fantasy,
-//   Film_Noir,
-//   History,
-//   Horror,
-//   Music,
-//   Musical,
-//   Mystery,
-//   Romance,
-//   SciFi,
-//   Short_Film,
-//   Sport,
-//   Superhero,
-//   Thriller,
-//   War,
-//   Western
-// }
+enum MovieGenre {
+  Action,
+  Adventure,
+  Animation,
+  Biography,
+  Comedy,
+  Crime,
+  Documentary,
+  Drama,
+  Family,
+  Fantasy,
+  Film_Noir,
+  History,
+  Horror,
+  Music,
+  Musical,
+  Mystery,
+  Romance,
+  SciFi,
+  Short_Film,
+  Sport,
+  Superhero,
+  Thriller,
+  War,
+  Western
+}
 
-// extension ParseToString on MovieGenre {
-//   String toShortString() {
-//     return this.toString().split('.').last;
-//   }
-// }
+extension ParseToString on MovieGenre {
+  String toShortString() {
+    return this.toString().split('.').last.replaceAll("_", " ");
+  }
+}
 
-// T enumFromString<T>(Iterable<T> values, String value) {
-//   return values.firstWhere((type) => type.toString().split(".").last == value,
-//       orElse: () => null);
-// }
+MovieGenre movieGenreFromString(String value) {
+  return MovieGenre.values.firstWhere(
+      (type) => type.toString().split(".").last == value.replaceAll(" ", "_"),
+      orElse: () => null);
+}
 
 class Movie {
   final String uuid;
   final String title;
   final String director;
-  final String image;
+  final MovieGenre genre;
+  final String description;
   final double score;
 
-  const Movie({this.uuid, this.title, this.director, this.image, this.score});
+  const Movie(
+      {this.uuid,
+      this.title,
+      this.director,
+      this.genre,
+      this.description,
+      this.score});
 
   Movie.fromMap(Map<String, dynamic> data)
       : this(
             uuid: data['uuid'],
             title: data['title'],
             director: data['director'],
-            image: data['image'],
+            genre: movieGenreFromString(data['genre']),
+            description: data['description'],
             score: data['score']);
 
   Map<String, dynamic> toMap() {
@@ -58,7 +67,8 @@ class Movie {
       'uuid': uuid,
       'title': title,
       'director': director,
-      'image': image,
+      'genre': genre.toShortString(),
+      'description': description,
       'score': score
     };
   }

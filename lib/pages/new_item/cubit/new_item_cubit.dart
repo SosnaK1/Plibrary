@@ -9,7 +9,14 @@ import 'package:uuid/uuid.dart';
 part 'new_item_state.dart';
 
 class NewItemCubit extends Cubit<NewItemState> {
-  NewItemCubit(this._databaseRepository) : super(const NewItemState());
+  NewItemCubit(this._databaseRepository, String initialItemType)
+      : super(const NewItemState()) {
+    if (NewItemState.itemTypes.contains(initialItemType)) {
+      selectedItemTypeChanged(initialItemType);
+    } else {
+      selectedItemTypeChanged(NewItemState.itemTypes.first);
+    }
+  }
 
   final DatabaseRepository _databaseRepository;
 
@@ -17,18 +24,27 @@ class NewItemCubit extends Cubit<NewItemState> {
     emit(state.copyWith(selectedItemType: value));
   }
 
-  void titleChanged(String value) {
-    final title = Title.dirty(value);
+  void movieTitleChanged(String value) {
+    final movieTitle = Title.dirty(value);
     emit(state.copyWith(
-        title: title,
+        movieTitle: movieTitle,
         status: Formz.validate([
-          title,
+          movieTitle,
         ])));
   }
 
-  void directorChanged(String value) {
-    emit(state.copyWith(director: value));
+  void movieDirectorChanged(String value) {
+    emit(state.copyWith(movieDirector: value));
   }
+
+  void movieGenreChanged(String newValue) {
+    emit(state.copyWith(movieGenre: movieGenreFromString(newValue)));
+  }
+
+  void movieDescriptionChanged(String newValue) {
+    emit(state.copyWith(movieDescription: newValue));
+  }
+
 
   void scoreChanged(double value) {
     emit(state.copyWith(score: value));
@@ -39,14 +55,18 @@ class NewItemCubit extends Cubit<NewItemState> {
 
     var uuid = Uuid();
 
-    Movie movie = Movie(
-        uuid: uuid.v1(),
-        title: state.title.value,
-        director: state.director,
-        score: state.score);
-
     try {
-      await _databaseRepository.addNewMovie(movie);
+      if (state.selectedItemType == "Movies") {
+        Movie movie = Movie(
+            uuid: uuid.v1(),
+            title: state.movieTitle.value,
+            director: state.movieDirector,
+            genre: state.movieGenre,
+            description: state.movieDescription,
+            score: state.score);
+
+        await _databaseRepository.addNewMovie(movie);
+      }
 
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on Exception {

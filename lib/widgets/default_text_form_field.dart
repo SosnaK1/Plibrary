@@ -7,34 +7,64 @@ class DefaultTextFormField extends StatelessWidget {
   final bool obscureText;
   final Function(String) onChanged;
 
+  final bool multiline;
+  final int maxLength;
+
   const DefaultTextFormField(
       {Key key,
       this.labelText,
       this.obscureText = false,
       this.onChanged,
-      this.errorText})
+      this.errorText,
+      this.multiline = false,
+      this.maxLength = 300})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      onChanged: onChanged,
-      obscureText: obscureText,
-      cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
-      decoration: InputDecoration(
-          errorText: errorText,
-          labelText: labelText,
-          labelStyle: TextStyle(
-            color: accentColorLight,
-          ),
-          helperText: ' ', // Helps with error text changing widget size
-          border: OutlineInputBorder(),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: accentColorLight),
-              borderRadius: BorderRadius.all(Radius.circular(8.0))),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey),
-              borderRadius: BorderRadius.all(Radius.circular(8.0)))),
-    );
+    if (!this.multiline) {
+      return TextFormField(
+        onChanged: onChanged,
+        obscureText: obscureText,
+        cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
+        decoration: InputDecoration(
+            errorText: errorText,
+            labelText: labelText,
+            labelStyle: TextStyle(
+              color: accentColorLight,
+            ),
+            helperText: ' ', // Helps with error text changing widget size
+            border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: accentColorLight),
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+                borderRadius: BorderRadius.all(Radius.circular(8.0)))),
+      );
+    } else {
+      return TextFormField(
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        maxLength: 300,
+        onChanged: onChanged,
+        obscureText: obscureText,
+        cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
+        decoration: InputDecoration(
+            errorText: errorText,
+            labelText: labelText,
+            labelStyle: TextStyle(
+              color: accentColorLight,
+            ),
+            helperText: ' ', // Helps with error text changing widget size
+            border: OutlineInputBorder(),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: accentColorLight),
+                borderRadius: BorderRadius.all(Radius.circular(8.0))),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+                borderRadius: BorderRadius.all(Radius.circular(8.0)))),
+      );
+    }
   }
 }

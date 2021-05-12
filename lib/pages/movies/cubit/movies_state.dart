@@ -1,10 +1,10 @@
 part of 'movies_cubit.dart';
 
-abstract class MoviesState extends Equatable {
-  const MoviesState();
+class MoviesState extends Equatable {
+  const MoviesState({this.moviesStream});
+
+  final Stream<List<Movie>> moviesStream;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [moviesStream];
 }
-
-class MoviesInitial extends MoviesState {}

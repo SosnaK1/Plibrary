@@ -6,7 +6,7 @@ import 'package:plibrary/database_service/models/movie.dart';
 part 'movies_state.dart';
 
 class MoviesCubit extends Cubit<MoviesState> {
-  MoviesCubit(this._databaseRepository) : super(MoviesInitial());
+  MoviesCubit(this._databaseRepository) : super(MoviesState(moviesStream: _databaseRepository.getMovies()));
 
   final DatabaseRepository _databaseRepository;
 
