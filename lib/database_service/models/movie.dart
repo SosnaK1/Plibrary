@@ -1,3 +1,5 @@
+import 'package:plibrary/database_service/models/library_item.dart';
+
 enum MovieGenre {
   Action,
   Adventure,
@@ -37,7 +39,9 @@ MovieGenre movieGenreFromString(String value) {
       orElse: () => null);
 }
 
-class Movie {
+class Movie implements LibraryItem {
+  final String collectionName = "movies";
+
   final String uuid;
   final String title;
   final String director;

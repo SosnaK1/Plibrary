@@ -1,3 +1,5 @@
+import 'package:plibrary/database_service/models/library_item.dart';
+
 enum BookGenre {
   Fantasy,
   Adventure,
@@ -37,7 +39,9 @@ BookGenre bookGenreFromString(String value) {
       orElse: () => null);
 }
 
-class Book {
+class Book implements LibraryItem {
+  final String collectionName = "books";
+
   final String uuid;
   final String title;
   final String author;

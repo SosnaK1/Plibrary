@@ -2,6 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:plibrary/database_service/models/book.dart';
 import 'package:plibrary/database_service/models/game.dart';
+import 'package:plibrary/database_service/models/library_item.dart';
 import 'package:plibrary/database_service/models/series.dart';
 
 import 'models/movie.dart';
@@ -19,79 +20,25 @@ class DatabaseRepository {
         .set({});
   }
 
-  // TODO: Refactor these classes i can use one function to handle every item type
-  Future addNewMovie(Movie movie) async {
+  Future addNewItem(LibraryItem item) async {
     await _firestore
         .collection('users')
         .doc(_authenticationRepository.currentUser.id)
-        .collection('movies')
-        .doc(movie.uuid)
-        .set(movie.toMap());
+        .collection(item.collectionName)
+        .doc(item.uuid)
+        .set(item.toMap());
   }
 
-  Future addNewSeries(Series series) async {
+  Future deleteItem(LibraryItem item) async {
     await _firestore
         .collection('users')
         .doc(_authenticationRepository.currentUser.id)
-        .collection('series')
-        .doc(series.uuid)
-        .set(series.toMap());
-  }
-
-  Future addNewBook(Book book) async {
-    await _firestore
-        .collection('users')
-        .doc(_authenticationRepository.currentUser.id)
-        .collection('books')
-        .doc(book.uuid)
-        .set(book.toMap());
-  }
-
-  Future addNewGame(Game game) async {
-    await _firestore
-        .collection('users')
-        .doc(_authenticationRepository.currentUser.id)
-        .collection('games')
-        .doc(game.uuid)
-        .set(game.toMap());
-  }
-
-  Future deleteMovie(Movie movie) async {
-    await _firestore
-        .collection('users')
-        .doc(_authenticationRepository.currentUser.id)
-        .collection('movies')
-        .doc(movie.uuid)
+        .collection(item.collectionName)
+        .doc(item.uuid)
         .delete();
   }
 
-  Future deleteSeries(Series series) async {
-    await _firestore
-        .collection('users')
-        .doc(_authenticationRepository.currentUser.id)
-        .collection('series')
-        .doc(series.uuid)
-        .delete();
-  }
-
-  Future deleteBook(Book book) async {
-    await _firestore
-        .collection('users')
-        .doc(_authenticationRepository.currentUser.id)
-        .collection('books')
-        .doc(book.uuid)
-        .delete();
-  }
-
-  Future deleteGame(Game game) async {
-    await _firestore
-        .collection('users')
-        .doc(_authenticationRepository.currentUser.id)
-        .collection('games')
-        .doc(game.uuid)
-        .delete();
-  }
-
+  
   Stream<List<Movie>> getMovies() {
     return _firestore
         .collection('users')

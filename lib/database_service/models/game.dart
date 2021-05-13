@@ -1,3 +1,5 @@
+import 'package:plibrary/database_service/models/library_item.dart';
+
 enum GameGenre {
   Sandbox,
   Real_Time_Strategy,
@@ -23,7 +25,9 @@ GameGenre gameGenreFromString(String value) {
       orElse: () => null);
 }
 
-class Game {
+class Game implements LibraryItem {
+  final String collectionName = "games";
+
   final String uuid;
   final String title;
   final String studio;

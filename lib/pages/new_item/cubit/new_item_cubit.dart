@@ -4,6 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:plibrary/database_service/database_repository.dart';
 import 'package:plibrary/database_service/models/book.dart';
 import 'package:plibrary/database_service/models/game.dart';
+import 'package:plibrary/database_service/models/library_item.dart';
 import 'package:plibrary/database_service/models/movie.dart';
 import 'package:plibrary/database_service/models/series.dart';
 import 'package:plibrary/forms/models/models.dart';
@@ -74,8 +75,10 @@ class NewItemCubit extends Cubit<NewItemState> {
     var uuid = Uuid();
 
     try {
+      LibraryItem newItem;
+
       if (state.selectedItemType == "Movies") {
-        Movie movie = Movie(
+        newItem = Movie(
             uuid: uuid.v1(),
             title: state.title.value,
             director: state.author,
@@ -83,10 +86,8 @@ class NewItemCubit extends Cubit<NewItemState> {
             description: state.description,
             finished: state.finished,
             score: state.score);
-
-        await _databaseRepository.addNewMovie(movie);
       } else if (state.selectedItemType == "Series") {
-        Series series = Series(
+        newItem = Series(
             uuid: uuid.v1(),
             title: state.title.value,
             director: state.author,
@@ -94,10 +95,8 @@ class NewItemCubit extends Cubit<NewItemState> {
             description: state.description,
             finished: state.finished,
             score: state.score);
-
-        await _databaseRepository.addNewSeries(series);
       } else if (state.selectedItemType == "Books") {
-        Book book = Book(
+        newItem = Book(
             uuid: uuid.v1(),
             title: state.title.value,
             author: state.author,
@@ -105,10 +104,8 @@ class NewItemCubit extends Cubit<NewItemState> {
             description: state.description,
             finished: state.finished,
             score: state.score);
-
-        await _databaseRepository.addNewBook(book);
       } else if (state.selectedItemType == "Games") {
-        Game game = Game(
+        newItem = Game(
             uuid: uuid.v1(),
             title: state.title.value,
             studio: state.author,
@@ -116,9 +113,11 @@ class NewItemCubit extends Cubit<NewItemState> {
             description: state.description,
             finished: state.finished,
             score: state.score);
-
-        await _databaseRepository.addNewGame(game);
       }
+
+      if (LibraryItem == null) throw Exception();
+
+      await _databaseRepository.addNewItem(newItem);
 
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on Exception {

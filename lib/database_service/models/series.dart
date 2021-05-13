@@ -1,3 +1,5 @@
+import 'library_item.dart';
+
 enum SeriesGenre {
   Action,
   Adventure,
@@ -39,7 +41,9 @@ SeriesGenre seriesGenreFromString(String value) {
       orElse: () => null);
 }
 
-class Series {
+class Series implements LibraryItem {
+  final String collectionName = "series";
+
   final String uuid;
   final String title;
   final String director;

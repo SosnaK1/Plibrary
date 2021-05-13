@@ -11,7 +11,6 @@ class MoviesCubit extends Cubit<MoviesState> {
   final DatabaseRepository _databaseRepository;
 
   void deleteMovieFromDB(Movie movie) async {
-    print("deleting...");
-    _databaseRepository.deleteMovie(movie);
+    _databaseRepository.deleteItem(movie);
   }
 }
