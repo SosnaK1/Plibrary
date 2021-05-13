@@ -11,7 +11,7 @@ enum GameGenre {
   Platformer
 }
 
-extension ParseToString on GameGenre {
+extension ParseGameToString on GameGenre {
   String toShortString() {
     return this.toString().split('.').last.replaceAll("_", " ");
   }

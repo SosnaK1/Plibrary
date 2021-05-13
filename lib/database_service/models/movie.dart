@@ -25,7 +25,7 @@ enum MovieGenre {
   Western
 }
 
-extension ParseToString on MovieGenre {
+extension ParseMovieToString on MovieGenre {
   String toShortString() {
     return this.toString().split('.').last.replaceAll("_", " ");
   }
@@ -43,7 +43,7 @@ class Movie {
   final String director;
   final MovieGenre genre;
   final String description;
-  final bool seen;
+  final bool finished;
   final double score;
 
   const Movie(
@@ -52,7 +52,7 @@ class Movie {
       this.director,
       this.genre,
       this.description,
-      this.seen,
+      this.finished,
       this.score});
 
   Movie.fromMap(Map<String, dynamic> data)
@@ -62,7 +62,7 @@ class Movie {
             director: data['director'],
             genre: movieGenreFromString(data['genre']),
             description: data['description'],
-            seen: data['seen'],
+            finished: data['finished'],
             score: data['score']);
 
   Map<String, dynamic> toMap() {
@@ -72,7 +72,7 @@ class Movie {
       'director': director,
       'genre': genre.toShortString(),
       'description': description,
-      'seen': seen,
+      'finished': finished,
       'score': score
     };
   }

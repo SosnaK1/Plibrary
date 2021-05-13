@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:plibrary/database_service/database_repository.dart';
-import 'package:plibrary/database_service/models/movie.dart';
+import 'package:plibrary/database_service/models.dart';
 import 'package:plibrary/navigation_drawer/navigation_drawer.dart';
 import 'package:plibrary/pages/new_item/cubit/new_item_cubit.dart';
 import 'package:plibrary/utils/categories_utils.dart';
@@ -83,6 +80,12 @@ class _NewItemPageState extends State<NewItemPage> {
                     ),
                     if (state.selectedItemType == "Movies")
                       movieFields(context, state),
+                    if (state.selectedItemType == "Series")
+                      seriesFields(context, state),
+                    if (state.selectedItemType == "Books")
+                      bookFields(context, state),
+                    if (state.selectedItemType == "Games")
+                      gameFields(context, state),
                     seenScoreWidget(context, state),
                     SizedBox(
                       height: 30,
@@ -116,20 +119,20 @@ Widget movieFields(BuildContext context, NewItemState state) {
       DefaultTextFormField(
         labelText: "Title",
         onChanged: (String newValue) {
-          context.read<NewItemCubit>().movieTitleChanged(newValue);
+          context.read<NewItemCubit>().titleChanged(newValue);
         },
-        errorText: state.movieTitle.invalid ? "Invalid Title!" : null,
+        errorText: state.title.invalid ? "Invalid Title!" : null,
       ),
       DefaultTextFormField(
           labelText: "Director",
           onChanged: (String newValue) {
-            context.read<NewItemCubit>().movieDirectorChanged(newValue);
+            context.read<NewItemCubit>().authorChanged(newValue);
           }),
       SizedBox(
         height: 20,
       ),
       DropdownButton<String>(
-          hint: Text("Item Type"),
+          hint: Text("Genre"),
           onChanged: (String newValue) {
             context.read<NewItemCubit>().movieGenreChanged(newValue);
           },
@@ -147,7 +150,148 @@ Widget movieFields(BuildContext context, NewItemState state) {
         labelText: "Description",
         multiline: true,
         onChanged: (String newValue) {
-          context.read<NewItemCubit>().movieDescriptionChanged(newValue);
+          context.read<NewItemCubit>().descriptionChanged(newValue);
+        },
+      ),
+      SizedBox(
+        height: 20,
+      ),
+    ],
+  );
+}
+
+Widget seriesFields(BuildContext context, NewItemState state) {
+  return Column(
+    children: [
+      DefaultTextFormField(
+        labelText: "Title",
+        onChanged: (String newValue) {
+          context.read<NewItemCubit>().titleChanged(newValue);
+        },
+        errorText: state.title.invalid ? "Invalid Title!" : null,
+      ),
+      DefaultTextFormField(
+          labelText: "Director",
+          onChanged: (String newValue) {
+            context.read<NewItemCubit>().authorChanged(newValue);
+          }),
+      SizedBox(
+        height: 20,
+      ),
+      DropdownButton<String>(
+          hint: Text("Genre"),
+          onChanged: (String newValue) {
+            context.read<NewItemCubit>().seriesGenreChanged(newValue);
+          },
+          value: state.seriesGenre.toShortString(),
+          items: SeriesGenre.values
+              .map((genre) => DropdownMenuItem(
+                    value: genre.toShortString(),
+                    child: Text(genre.toShortString()),
+                  ))
+              .toList()),
+      SizedBox(
+        height: 20,
+      ),
+      DefaultTextFormField(
+        labelText: "Description",
+        multiline: true,
+        onChanged: (String newValue) {
+          context.read<NewItemCubit>().descriptionChanged(newValue);
+        },
+      ),
+      SizedBox(
+        height: 20,
+      ),
+    ],
+  );
+}
+
+Widget bookFields(BuildContext context, NewItemState state) {
+  return Column(
+    children: [
+      DefaultTextFormField(
+        labelText: "Title",
+        onChanged: (String newValue) {
+          context.read<NewItemCubit>().titleChanged(newValue);
+        },
+        errorText: state.title.invalid ? "Invalid Title!" : null,
+      ),
+      DefaultTextFormField(
+          labelText: "Author",
+          onChanged: (String newValue) {
+            context.read<NewItemCubit>().authorChanged(newValue);
+          }),
+      SizedBox(
+        height: 20,
+      ),
+      DropdownButton<String>(
+          hint: Text("Genre"),
+          onChanged: (String newValue) {
+            context.read<NewItemCubit>().bookGenreChanged(newValue);
+          },
+          value: state.bookGenre.toShortString(),
+          items: BookGenre.values
+              .map((genre) => DropdownMenuItem(
+                    value: genre.toShortString(),
+                    child: Text(genre.toShortString()),
+                  ))
+              .toList()),
+      SizedBox(
+        height: 20,
+      ),
+      DefaultTextFormField(
+        labelText: "Description",
+        multiline: true,
+        onChanged: (String newValue) {
+          context.read<NewItemCubit>().descriptionChanged(newValue);
+        },
+      ),
+      SizedBox(
+        height: 20,
+      ),
+    ],
+  );
+}
+
+Widget gameFields(BuildContext context, NewItemState state) {
+  return Column(
+    children: [
+      DefaultTextFormField(
+        labelText: "Title",
+        onChanged: (String newValue) {
+          context.read<NewItemCubit>().titleChanged(newValue);
+        },
+        errorText: state.title.invalid ? "Invalid Title!" : null,
+      ),
+      DefaultTextFormField(
+          labelText: "Studio",
+          onChanged: (String newValue) {
+            context.read<NewItemCubit>().authorChanged(newValue);
+          }),
+      SizedBox(
+        height: 20,
+      ),
+      DropdownButton<String>(
+          hint: Text("Genre"),
+          onChanged: (String newValue) {
+            context.read<NewItemCubit>().gameGenreChanged(newValue);
+          },
+          value: state.gameGenre.toShortString(),
+          items: GameGenre.values
+              .map((genre) => DropdownMenuItem(
+                    value: genre.toShortString(),
+                    child: Text(genre.toShortString()),
+                  ))
+              .toList()),
+      SizedBox(
+        height: 20,
+      ),
+      DefaultTextFormField(
+        labelText: "Description",
+        multiline: true,
+        onChanged: (String newValue) {
+          context.read<NewItemCubit>().descriptionChanged(newValue);
         },
       ),
       SizedBox(
@@ -161,15 +305,15 @@ Widget seenScoreWidget(BuildContext context, NewItemState state) {
   return Column(
     children: [
       Text(
-        "Seen",
+        "Finished",
         style: TextStyle(fontSize: 20.0),
       ),
       Checkbox(
-          value: state.seen,
+          value: state.finished,
           onChanged: (value) {
-            context.read<NewItemCubit>().seenChanged(value);
+            context.read<NewItemCubit>().finishedChanged(value);
           }),
-      if (state.seen)
+      if (state.finished)
         Slider(
             activeColor: accentColor,
             max: 5.0,

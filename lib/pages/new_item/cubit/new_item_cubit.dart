@@ -2,7 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:plibrary/database_service/database_repository.dart';
+import 'package:plibrary/database_service/models/book.dart';
+import 'package:plibrary/database_service/models/game.dart';
 import 'package:plibrary/database_service/models/movie.dart';
+import 'package:plibrary/database_service/models/series.dart';
 import 'package:plibrary/forms/models/models.dart';
 import 'package:uuid/uuid.dart';
 
@@ -24,29 +27,41 @@ class NewItemCubit extends Cubit<NewItemState> {
     emit(state.copyWith(selectedItemType: value));
   }
 
-  void movieTitleChanged(String value) {
-    final movieTitle = Title.dirty(value);
+  void titleChanged(String value) {
+    final title = Title.dirty(value);
     emit(state.copyWith(
-        movieTitle: movieTitle,
+        title: title,
         status: Formz.validate([
-          movieTitle,
+          title,
         ])));
   }
 
-  void movieDirectorChanged(String value) {
-    emit(state.copyWith(movieDirector: value));
+  void authorChanged(String value) {
+    emit(state.copyWith(author: value));
   }
 
   void movieGenreChanged(String newValue) {
     emit(state.copyWith(movieGenre: movieGenreFromString(newValue)));
   }
 
-  void movieDescriptionChanged(String newValue) {
-    emit(state.copyWith(movieDescription: newValue));
+  void seriesGenreChanged(String newValue) {
+    emit(state.copyWith(seriesGenre: seriesGenreFromString(newValue)));
   }
 
-  void seenChanged(bool newValue) {
-    emit(state.copyWith(seen: newValue));
+  void bookGenreChanged(String newValue) {
+    emit(state.copyWith(bookGenre: bookGenreFromString(newValue)));
+  }
+
+  void gameGenreChanged(String newValue) {
+    emit(state.copyWith(gameGenre: gameGenreFromString(newValue)));
+  }
+
+  void descriptionChanged(String newValue) {
+    emit(state.copyWith(description: newValue));
+  }
+
+  void finishedChanged(bool newValue) {
+    emit(state.copyWith(finished: newValue));
   }
 
   void scoreChanged(double value) {
@@ -62,14 +77,47 @@ class NewItemCubit extends Cubit<NewItemState> {
       if (state.selectedItemType == "Movies") {
         Movie movie = Movie(
             uuid: uuid.v1(),
-            title: state.movieTitle.value,
-            director: state.movieDirector,
+            title: state.title.value,
+            director: state.author,
             genre: state.movieGenre,
-            description: state.movieDescription,
-            seen: state.seen,
+            description: state.description,
+            finished: state.finished,
             score: state.score);
 
         await _databaseRepository.addNewMovie(movie);
+      } else if (state.selectedItemType == "Series") {
+        Series series = Series(
+            uuid: uuid.v1(),
+            title: state.title.value,
+            director: state.author,
+            genre: state.seriesGenre,
+            description: state.description,
+            finished: state.finished,
+            score: state.score);
+
+        await _databaseRepository.addNewSeries(series);
+      } else if (state.selectedItemType == "Books") {
+        Book book = Book(
+            uuid: uuid.v1(),
+            title: state.title.value,
+            author: state.author,
+            genre: state.bookGenre,
+            description: state.description,
+            finished: state.finished,
+            score: state.score);
+
+        await _databaseRepository.addNewBook(book);
+      } else if (state.selectedItemType == "Games") {
+        Game game = Game(
+            uuid: uuid.v1(),
+            title: state.title.value,
+            studio: state.author,
+            genre: state.gameGenre,
+            description: state.description,
+            finished: state.finished,
+            score: state.score);
+
+        await _databaseRepository.addNewGame(game);
       }
 
       emit(state.copyWith(status: FormzStatus.submissionSuccess));

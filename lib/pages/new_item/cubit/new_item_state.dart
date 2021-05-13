@@ -4,25 +4,32 @@ class NewItemState extends Equatable {
   const NewItemState({
     this.selectedItemType,
 
-    // Movie fields
-    this.movieTitle = const Title.pure(),
-    this.movieDirector = "",
+    this.title = const Title.pure(),
+    this.author = "",
+    this.description = "",
+
     this.movieGenre = MovieGenre.Action,
-    this.movieDescription = "",
-    
-    this.seen = false,
+    this.seriesGenre = SeriesGenre.Action,
+    this.bookGenre = BookGenre.Adventure,
+    this.gameGenre = GameGenre.Action_Adventure,
+
+    this.finished = false,
     this.score = 0,
     this.status = FormzStatus.pure,
   });
 
   final String selectedItemType;
 
-  final Title movieTitle;
-  final String movieDirector;
-  final MovieGenre movieGenre;
-  final String movieDescription;
+  final Title title;
+  final String author;
+  final String description;
 
-  final bool seen;
+  final MovieGenre movieGenre;
+  final SeriesGenre seriesGenre;
+  final BookGenre bookGenre;
+  final GameGenre gameGenre;
+
+  final bool finished;
   final double score;
   final FormzStatus status;
 
@@ -31,32 +38,41 @@ class NewItemState extends Equatable {
   @override
   List<Object> get props => [
         selectedItemType,
-        movieTitle,
-        movieDirector,
+        title,
+        author,
         movieGenre,
-        movieDescription,
-        seen,
+        seriesGenre,
+        bookGenre,
+        gameGenre,
+        description,
+        finished,
         score,
         status
       ];
 
   NewItemState copyWith(
       {String selectedItemType,
-      Title movieTitle,
-      String movieDirector,
+      Title title,
+      String author,
+      String description,
       MovieGenre movieGenre,
-      String movieDescription,
-      bool seen,
+      SeriesGenre seriesGenre,
+      BookGenre bookGenre,
+      GameGenre gameGenre,
+      bool finished,
       double score,
       String imagePath,
       FormzStatus status}) {
     return NewItemState(
         selectedItemType: selectedItemType ?? this.selectedItemType,
-        movieTitle: movieTitle ?? this.movieTitle,
-        movieDirector: movieDirector ?? this.movieDirector,
+        title: title ?? this.title,
+        author: author ?? this.author,
         movieGenre: movieGenre ?? this.movieGenre,
-        movieDescription: movieDescription ?? this.movieDescription,
-        seen: seen ?? this.seen,
+        seriesGenre: seriesGenre ?? this.seriesGenre,
+        bookGenre: bookGenre ?? this.bookGenre,
+        gameGenre: gameGenre ?? this.gameGenre,
+        description: description ?? this.description,
+        finished: finished ?? this.finished,
         score: score ?? this.score,
         status: status ?? this.status);
   }

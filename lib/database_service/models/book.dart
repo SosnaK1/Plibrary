@@ -1,4 +1,4 @@
-enum BookGenres {
+enum BookGenre {
   Fantasy,
   Adventure,
   Romance,
@@ -25,14 +25,14 @@ enum BookGenres {
   Childrens,
 }
 
-extension ParseToString on BookGenres {
+extension ParseBookToString on BookGenre {
   String toShortString() {
     return this.toString().split('.').last.replaceAll("_", " ");
   }
 }
 
-BookGenres bookGenreFromString(String value) {
-  return BookGenres.values.firstWhere(
+BookGenre bookGenreFromString(String value) {
+  return BookGenre.values.firstWhere(
       (type) => type.toString().split(".").last == value.replaceAll(" ", "_"),
       orElse: () => null);
 }
@@ -41,7 +41,7 @@ class Book {
   final String uuid;
   final String title;
   final String author;
-  final BookGenres genre;
+  final BookGenre genre;
   final String description;
   final bool finished;
   final double score;

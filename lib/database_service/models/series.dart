@@ -27,7 +27,7 @@ enum SeriesGenre {
   Western
 }
 
-extension ParseToString on SeriesGenre {
+extension ParseSeriesToString on SeriesGenre {
   String toShortString() {
     return this.toString().split('.').last.replaceAll("_", " ");
   }
