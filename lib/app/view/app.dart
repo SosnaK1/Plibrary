@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plibrary/database_service/database_repository.dart';
-import 'package:plibrary/pages/drawer_container.dart/drawer_container.dart';
+import 'package:plibrary/pages/drawer_container/drawer_container.dart';
 import 'package:plibrary/pages/splash/splash_page.dart';
 import 'package:plibrary/pages/welcome/welcome_page.dart';
 import 'package:plibrary/themes.dart';

@@ -41,6 +41,7 @@ MovieGenre movieGenreFromString(String value) {
 
 class Movie implements LibraryItem {
   final String collectionName = "movies";
+  final String itemName = "movie";
 
   final String uuid;
   final String title;

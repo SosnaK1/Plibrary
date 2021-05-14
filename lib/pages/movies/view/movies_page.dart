@@ -1,14 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plibrary/database_service/database_repository.dart';
 import 'package:plibrary/database_service/models/movie.dart';
 import 'package:plibrary/navigation_drawer/navigation_drawer.dart';
+import 'package:plibrary/pages/item/view/item_page.dart';
 import 'package:plibrary/pages/movies/cubit/movies_cubit.dart';
 import 'package:plibrary/pages/new_item/view/new_item_page.dart';
-import 'package:plibrary/themes.dart';
 import 'package:shimmer/shimmer.dart';
+
 
 class MoviesPage extends StatefulWidget {
   FloatingActionButton moviesFAB(BuildContext context) => FloatingActionButton(
@@ -51,28 +50,25 @@ class _MoviesPageState extends State<MoviesPage> {
                         children: snapshot.data.map((Movie movie) {
                           return Dismissible(
                             key: Key(movie.uuid),
+                            direction: DismissDirection.endToStart,
                             onDismissed: (direction) {
                               if (direction == DismissDirection.endToStart) {
                                 snapshot.data.remove(movie);
                                 context
                                     .read<MoviesCubit>()
                                     .deleteMovieFromDB(movie);
-                              } else {
-                                print("EDIT");
                               }
                             },
                             // TODO: confirmDismiss: ,
                             background: Container(
-                                color: Colors.blue,
-                                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                alignment: AlignmentDirectional.centerStart,
-                                child: Icon(Icons.edit)),
-                            secondaryBackground: Container(
                                 color: Colors.red,
                                 padding: EdgeInsets.symmetric(horizontal: 20.0),
                                 alignment: AlignmentDirectional.centerEnd,
                                 child: Icon(Icons.delete)),
                             child: ListTile(
+                              onTap: () {
+                                Navigator.push(context, ItemPage.route(movie));
+                              },
                               // trailing: movie.image != null
                               //     ? Image.file(File(movie.image))
                               //     : null,

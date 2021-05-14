@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:plibrary/app/app.dart';
-import 'package:plibrary/pages/drawer_container.dart/drawer_container.dart';
+import 'package:plibrary/pages/drawer_container/drawer_container.dart';
 import 'package:plibrary/themes.dart';
 import 'package:plibrary/widgets/main_logo_hero.dart';
 

@@ -41,6 +41,7 @@ BookGenre bookGenreFromString(String value) {
 
 class Book implements LibraryItem {
   final String collectionName = "books";
+  final String itemName = "book";
 
   final String uuid;
   final String title;

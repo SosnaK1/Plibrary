@@ -27,6 +27,7 @@ GameGenre gameGenreFromString(String value) {
 
 class Game implements LibraryItem {
   final String collectionName = "games";
+  final String itemName = "game";
 
   final String uuid;
   final String title;

@@ -43,6 +43,7 @@ SeriesGenre seriesGenreFromString(String value) {
 
 class Series implements LibraryItem {
   final String collectionName = "series";
+  final String itemName = "series";
 
   final String uuid;
   final String title;
