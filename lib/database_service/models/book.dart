@@ -81,4 +81,23 @@ class Book implements LibraryItem {
       'score': score
     };
   }
+
+  Book copyWith({
+    String title,
+    String author,
+    String description,
+    BookGenre genre,
+    bool finished,
+    double score
+  }) {
+    return Book(
+      uuid: this.uuid,
+      title: title ?? this.title,
+      author: author ?? this.author,
+      description: description ?? this.description,
+      genre: genre ?? this.genre,
+      finished: finished ?? this.finished,
+      score: score ?? this.score,
+    );
+  }
 }

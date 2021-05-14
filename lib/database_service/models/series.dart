@@ -83,4 +83,23 @@ class Series implements LibraryItem {
       'score': score
     };
   }
+
+  Series copyWith({
+    String title,
+    String director,
+    String description,
+    SeriesGenre genre,
+    bool finished,
+    double score
+  }) {
+    return Series(
+      uuid: this.uuid,
+      title: title ?? this.title,
+      director: director ?? this.director,
+      description: description ?? this.description,
+      genre: genre ?? this.genre,
+      finished: finished ?? this.finished,
+      score: score ?? this.score,
+    );
+  }
 }

@@ -67,4 +67,23 @@ class Game implements LibraryItem {
       'score': score
     };
   }
+
+  Game copyWith({
+    String title,
+    String studio,
+    String description,
+    GameGenre genre,
+    bool finished,
+    double score
+  }) {
+    return Game(
+      uuid: this.uuid,
+      title: title ?? this.title,
+      studio: studio ?? this.studio,
+      description: description ?? this.description,
+      genre: genre ?? this.genre,
+      finished: finished ?? this.finished,
+      score: score ?? this.score,
+    );
+  }
 }

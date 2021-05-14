@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:plibrary/database_service/database_repository.dart';
 import 'package:plibrary/database_service/models.dart';
 import 'package:plibrary/database_service/models/library_item.dart';
 import 'package:plibrary/pages/item/cubit/item_cubit.dart';
 import 'package:plibrary/utils/string_utils.dart';
 import 'package:plibrary/utils/toast_utils.dart';
+import 'package:plibrary/widgets/main_button.dart';
+
+import '../../../themes.dart';
 
 class ItemPage extends StatelessWidget {
   const ItemPage({Key key, this.item}) : super(key: key);
@@ -18,71 +22,80 @@ class ItemPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ItemCubit>(
-        create: (context) => ItemCubit(item),
+        create: (context) => ItemCubit(context.read<DatabaseRepository>(), item),
         child: BlocConsumer<ItemCubit, ItemState>(
           listener: (context, state) {},
           builder: (context, state) {
             return Scaffold(
-                appBar: AppBar(
-                  title: Text(state.item.itemName.capitalize()),
-                  actions: [
-                    IconButton(
-                        onPressed: () {
-                          showInformationToast(
-                              context, "Long press on a field to edit it");
-                        },
-                        icon: Icon(Icons.edit))
+              appBar: AppBar(
+                title: Text(state.item.itemName.capitalize()),
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        showInformationToast(
+                            context, "Long press on a field to edit it");
+                      },
+                      icon: Icon(Icons.edit))
+                ],
+              ),
+              body: Center(
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Text(getItemTitle(item), style: TextStyle(fontSize: 30)),
+                    SizedBox(height: 10),
+                    Divider(thickness: 1.5),
+                    SizedBox(height: 10),
+                    Row(children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Author: ",
+                          style:
+                              TextStyle(fontSize: 22, color: Colors.white60)),
+                      Text(getItemAuthor(item),
+                          style:
+                              TextStyle(fontSize: 22, color: Colors.white60)),
+                    ]),
+                    SizedBox(height: 10),
+                    Row(children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Genre: ",
+                          style:
+                              TextStyle(fontSize: 22, color: Colors.white60)),
+                      Text(getItemGenreString(item),
+                          style:
+                              TextStyle(fontSize: 22, color: Colors.white60)),
+                    ]),
+                    SizedBox(height: 10),
+                    Divider(thickness: 1.5),
+                    SizedBox(height: 10),
+                    if (getItemDescription(item).length > 0)
+                      Row(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(getItemDescription(item),
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white60)),
+                          )
+                        ],
+                      ),
+                    SizedBox(height: 20),
+                    seenScoreWidget(context, state),
                   ],
                 ),
-                body: Center(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20),
-                      Text(getItemTitle(item), style: TextStyle(fontSize: 30)),
-                      SizedBox(height: 10),
-                      Divider(thickness: 1.5),
-                      SizedBox(height: 10),
-                      Row(children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text("Author: ",
-                            style:
-                                TextStyle(fontSize: 22, color: Colors.white60)),
-                        Text(getItemAuthor(item),
-                            style:
-                                TextStyle(fontSize: 22, color: Colors.white60)),
-                      ]),
-                      SizedBox(height: 10),
-                      Row(children: [
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text("Genre: ",
-                            style:
-                                TextStyle(fontSize: 22, color: Colors.white60)),
-                        Text(getItemGenreString(item),
-                            style:
-                                TextStyle(fontSize: 22, color: Colors.white60)),
-                      ]),
-                      SizedBox(height: 10),
-                      Divider(thickness: 1.5),
-                      SizedBox(height: 10),
-                      if (getItemDescription(item).length > 0)
-                        Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Text(getItemDescription(item),
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.white60)),
-                            )
-                          ],
-                        )
-                    ],
-                  ),
-                ));
+              ),
+              floatingActionButton: !state.formModified
+                  ? null
+                  : FloatingActionButton(
+                      child: Icon(Icons.save), onPressed: () {
+                        context.read<ItemCubit>().saveChanges();
+                      }),
+            );
           },
         ));
   }
@@ -118,4 +131,30 @@ String getItemDescription(LibraryItem item) {
   if (item is Book) return item.description;
   if (item is Game) return item.description;
   return "";
+}
+
+Widget seenScoreWidget(BuildContext context, ItemState state) {
+  print(state.item.finished);
+  return Column(
+    children: [
+      Text(
+        "Finished",
+        style: TextStyle(fontSize: 20.0),
+      ),
+      Checkbox(
+          value: state.item.finished,
+          onChanged: (value) {
+            context.read<ItemCubit>().finishedChanged(value);
+          }),
+      if (state.item.finished)
+        Slider(
+            activeColor: accentColor,
+            max: 5.0,
+            divisions: 5,
+            value: state.item.score,
+            onChanged: (double newValue) {
+              context.read<ItemCubit>().scoreChanged(newValue);
+            }),
+    ],
+  );
 }

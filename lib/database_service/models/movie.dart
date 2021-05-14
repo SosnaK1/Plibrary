@@ -81,4 +81,23 @@ class Movie implements LibraryItem {
       'score': score
     };
   }
+
+  Movie copyWith({
+    String title,
+    String director,
+    String description,
+    MovieGenre genre,
+    bool finished,
+    double score
+  }) {
+    return Movie(
+      uuid: this.uuid,
+      title: title ?? this.title,
+      director: director ?? this.director,
+      description: description ?? this.description,
+      genre: genre ?? this.genre,
+      finished: finished ?? this.finished,
+      score: score ?? this.score,
+    );
+  }
 }
