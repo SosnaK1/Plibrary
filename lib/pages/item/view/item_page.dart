@@ -6,7 +6,7 @@ import 'package:plibrary/database_service/models/library_item.dart';
 import 'package:plibrary/pages/item/cubit/item_cubit.dart';
 import 'package:plibrary/utils/string_utils.dart';
 import 'package:plibrary/utils/toast_utils.dart';
-import 'package:plibrary/widgets/main_button.dart';
+import 'package:plibrary/widgets/text_input_dialog.dart';
 
 import '../../../themes.dart';
 
@@ -22,7 +22,8 @@ class ItemPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ItemCubit>(
-        create: (context) => ItemCubit(context.read<DatabaseRepository>(), item),
+        create: (context) =>
+            ItemCubit(context.read<DatabaseRepository>(), item),
         child: BlocConsumer<ItemCubit, ItemState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -42,48 +43,99 @@ class ItemPage extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(height: 20),
-                    Text(getItemTitle(item), style: TextStyle(fontSize: 30)),
+                    GestureDetector(
+                        onLongPress: () {
+                          displayTextInputDialog(
+                              context,
+                              state,
+                              state.item.title,
+                              "Title",
+                              EditableFieldType.title);
+                        },
+                        child: Text(getItemTitle(state.item),
+                            style: TextStyle(fontSize: 30))),
                     SizedBox(height: 10),
                     Divider(thickness: 1.5),
                     SizedBox(height: 10),
-                    Row(children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Author: ",
-                          style:
-                              TextStyle(fontSize: 22, color: Colors.white60)),
-                      Text(getItemAuthor(item),
-                          style:
-                              TextStyle(fontSize: 22, color: Colors.white60)),
-                    ]),
+                    GestureDetector(
+                      onLongPress: () {
+                        displayTextInputDialog(
+                            context,
+                            state,
+                            getItemAuthor(state.item),
+                            "Author",
+                            EditableFieldType.author);
+                      },
+                      child: Row(children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text("Author: ",
+                            style:
+                                TextStyle(fontSize: 22, color: Colors.white60)),
+                        Text(getItemAuthor(state.item),
+                            style:
+                                TextStyle(fontSize: 22, color: Colors.white60)),
+                      ]),
+                    ),
                     SizedBox(height: 10),
-                    Row(children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Genre: ",
-                          style:
-                              TextStyle(fontSize: 22, color: Colors.white60)),
-                      Text(getItemGenreString(item),
-                          style:
-                              TextStyle(fontSize: 22, color: Colors.white60)),
-                    ]),
+                    GestureDetector(
+                      onLongPress: () {
+                        displayTextInputDialog(
+                            context,
+                            state,
+                            getItemGenreString(state.item),
+                            "Genre",
+                            EditableFieldType.genre);
+                      },
+                      child: Row(children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text("Genre: ",
+                            style:
+                                TextStyle(fontSize: 22, color: Colors.white60)),
+                        Text(getItemGenreString(state.item),
+                            style:
+                                TextStyle(fontSize: 22, color: Colors.white60)),
+                      ]),
+                    ),
                     SizedBox(height: 10),
                     Divider(thickness: 1.5),
                     SizedBox(height: 10),
-                    if (getItemDescription(item).length > 0)
-                      Row(
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text(getItemDescription(item),
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white60)),
-                          )
-                        ],
-                      ),
+                    if (getItemDescription(state.item).isNotEmpty)
+                      GestureDetector(
+                        onLongPress: () {
+                          displayTextInputDialog(
+                              context,
+                              state,
+                              state.item.description,
+                              "Description",
+                              EditableFieldType.description);
+                        },
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Text(getItemDescription(state.item),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.white60)),
+                            )
+                          ],
+                        ),
+                      )
+                    else
+                      TextButton(
+                          onPressed: () {
+                            displayTextInputDialog(
+                              context,
+                              state,
+                              state.item.description,
+                              "Description",
+                              EditableFieldType.description);
+                          },
+                          child: Text("Add description")),
                     SizedBox(height: 20),
                     seenScoreWidget(context, state),
                   ],
@@ -92,7 +144,8 @@ class ItemPage extends StatelessWidget {
               floatingActionButton: !state.formModified
                   ? null
                   : FloatingActionButton(
-                      child: Icon(Icons.save), onPressed: () {
+                      child: Icon(Icons.save),
+                      onPressed: () {
                         context.read<ItemCubit>().saveChanges();
                       }),
             );

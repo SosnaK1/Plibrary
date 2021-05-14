@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../themes.dart';
 
 class DefaultTextFormField extends StatelessWidget {
+  final String initialValue;
   final String labelText;
   final String errorText;
   final bool obscureText;
@@ -12,6 +13,7 @@ class DefaultTextFormField extends StatelessWidget {
 
   const DefaultTextFormField(
       {Key key,
+      this.initialValue,
       this.labelText,
       this.obscureText = false,
       this.onChanged,
@@ -24,6 +26,7 @@ class DefaultTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!this.multiline) {
       return TextFormField(
+        initialValue: initialValue,
         onChanged: onChanged,
         obscureText: obscureText,
         cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
@@ -44,6 +47,7 @@ class DefaultTextFormField extends StatelessWidget {
       );
     } else {
       return TextFormField(
+        initialValue: initialValue,
         keyboardType: TextInputType.multiline,
         maxLines: null,
         maxLength: 300,

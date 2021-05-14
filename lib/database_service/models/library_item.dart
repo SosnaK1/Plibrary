@@ -3,11 +3,12 @@ abstract class LibraryItem {
   final String itemName;
   final String uuid;
   final String title;
+  final String description;
   final bool finished;
   final double score;
 
-  LibraryItem(
-      this.collectionName, this.itemName, this.uuid, this.title, this.finished, this.score);
+  LibraryItem(this.collectionName, this.itemName, this.uuid, this.title,
+      this.description, this.finished, this.score);
 
   Map<String, dynamic> toMap();
 }

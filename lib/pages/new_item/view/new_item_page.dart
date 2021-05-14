@@ -32,11 +32,6 @@ class _NewItemPageState extends State<NewItemPage> {
   NavItem itemType;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => NewItemCubit(
