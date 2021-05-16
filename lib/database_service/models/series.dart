@@ -52,6 +52,7 @@ class Series implements LibraryItem {
   final String description;
   final bool finished;
   final double score;
+  final DateTime timeAdded;
 
   const Series(
       {this.uuid,
@@ -60,7 +61,8 @@ class Series implements LibraryItem {
       this.genre,
       this.description,
       this.finished,
-      this.score});
+      this.score,
+      this.timeAdded});
 
   Series.fromMap(Map<String, dynamic> data)
       : this(
@@ -70,7 +72,8 @@ class Series implements LibraryItem {
             genre: seriesGenreFromString(data['genre']),
             description: data['description'],
             finished: data['finished'],
-            score: data['score']);
+            score: data['score'],
+            timeAdded: DateTime.parse(data['time_added']));
 
   Map<String, dynamic> toMap() {
     return {
@@ -80,26 +83,27 @@ class Series implements LibraryItem {
       'genre': genre.toShortString(),
       'description': description,
       'finished': finished,
-      'score': score
+      'score': score,
+      'time_added': timeAdded.toString()
     };
   }
 
-  Series copyWith({
-    String title,
-    String director,
-    String description,
-    SeriesGenre genre,
-    bool finished,
-    double score
-  }) {
+  Series copyWith(
+      {String title,
+      String director,
+      String description,
+      SeriesGenre genre,
+      bool finished,
+      double score,
+      DateTime timeAdded}) {
     return Series(
-      uuid: this.uuid,
-      title: title ?? this.title,
-      director: director ?? this.director,
-      description: description ?? this.description,
-      genre: genre ?? this.genre,
-      finished: finished ?? this.finished,
-      score: score ?? this.score,
-    );
+        uuid: this.uuid,
+        title: title ?? this.title,
+        director: director ?? this.director,
+        description: description ?? this.description,
+        genre: genre ?? this.genre,
+        finished: finished ?? this.finished,
+        score: score ?? this.score,
+        timeAdded: timeAdded ?? this.timeAdded);
   }
 }

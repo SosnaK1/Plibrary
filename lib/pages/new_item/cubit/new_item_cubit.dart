@@ -85,7 +85,8 @@ class NewItemCubit extends Cubit<NewItemState> {
             genre: state.movieGenre,
             description: state.description,
             finished: state.finished,
-            score: state.score);
+            score: state.score,
+            timeAdded: DateTime.now());
       } else if (state.selectedItemType == "Series") {
         newItem = Series(
             uuid: uuid.v1(),
@@ -94,7 +95,8 @@ class NewItemCubit extends Cubit<NewItemState> {
             genre: state.seriesGenre,
             description: state.description,
             finished: state.finished,
-            score: state.score);
+            score: state.score,
+            timeAdded: DateTime.now());
       } else if (state.selectedItemType == "Books") {
         newItem = Book(
             uuid: uuid.v1(),
@@ -103,7 +105,8 @@ class NewItemCubit extends Cubit<NewItemState> {
             genre: state.bookGenre,
             description: state.description,
             finished: state.finished,
-            score: state.score);
+            score: state.score,
+            timeAdded: DateTime.now());
       } else if (state.selectedItemType == "Games") {
         newItem = Game(
             uuid: uuid.v1(),
@@ -112,7 +115,8 @@ class NewItemCubit extends Cubit<NewItemState> {
             genre: state.gameGenre,
             description: state.description,
             finished: state.finished,
-            score: state.score);
+            score: state.score,
+            timeAdded: DateTime.now());
       }
 
       if (LibraryItem == null) throw Exception();

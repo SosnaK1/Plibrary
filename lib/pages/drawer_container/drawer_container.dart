@@ -7,6 +7,7 @@ import 'package:plibrary/pages/home/view/home_page.dart';
 import 'package:plibrary/pages/movies/view/movies_page.dart';
 import 'package:plibrary/pages/series/view/series_page.dart';
 import 'package:plibrary/pages/settings/view/settings_page.dart';
+import 'package:plibrary/utils/item_sort_utils.dart';
 import 'package:plibrary/widgets/nav_drawer_widget.dart';
 import 'package:plibrary/navigation_drawer/navigation_drawer.dart';
 
@@ -50,6 +51,7 @@ class _DrawerContainerState extends State<DrawerContainer> {
                     BlocProvider.of<AppBloc>(context).state.user.email),
                 appBar: AppBar(
                   title: Text(_titleForState(state.selectedItem)),
+                  actions: [_appBarActionForState(state.selectedItem, context)],
                 ),
                 floatingActionButton: _fabForState(state.selectedItem, context),
                 body: AnimatedSwitcher(
@@ -132,4 +134,50 @@ FloatingActionButton _fabForState(NavItem state, BuildContext context) {
     default:
       return null;
   }
+}
+
+Widget _appBarActionForState(NavItem state, BuildContext context) {
+  switch (state) {
+    case NavItem.home:
+    case NavItem.settings:
+      return Container();
+    case NavItem.movies:
+    case NavItem.series:
+    case NavItem.books:
+    case NavItem.games:
+      return PopupMenuButton(
+        icon: Icon(Icons.sort),
+        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+          _getPopupMenuItem(
+              context, Icons.arrow_upward, "Name", ItemSortOption.NameInc),
+          _getPopupMenuItem(
+              context, Icons.arrow_downward, "Name", ItemSortOption.NameDec),
+          PopupMenuDivider(),
+          _getPopupMenuItem(
+              context, Icons.arrow_upward, "Score", ItemSortOption.ScoreInc),
+          _getPopupMenuItem(
+              context, Icons.arrow_downward, "Score", ItemSortOption.ScoreDec),
+          PopupMenuDivider(),
+          _getPopupMenuItem(
+              context, Icons.arrow_upward, "Date", ItemSortOption.DateInc),
+          _getPopupMenuItem(
+              context, Icons.arrow_downward, "Date", ItemSortOption.DateDec),
+        ],
+      );
+  }
+
+  return null;
+}
+
+PopupMenuItem _getPopupMenuItem(BuildContext context, IconData icon,
+    String title, ItemSortOption sortOption) {
+  return PopupMenuItem(
+    child: ListTile(
+        trailing: Icon(icon),
+        title: Text(title),
+        onTap: () {
+          context.read<NavDrawerBloc>().add(ChangeSortOption(sortOption));
+          Navigator.pop(context);
+        }),
+  );
 }

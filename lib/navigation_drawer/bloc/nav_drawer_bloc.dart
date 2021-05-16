@@ -14,6 +14,10 @@ class NavDrawerBloc extends Bloc<NavDrawerEvent, NavDrawerState> {
       if (event.destination != state.selectedItem) {
         yield NavDrawerState(event.destination);
       }
+    } else if (event is ChangeSortOption) {
+      if (event.sortOption != state.sortOption) {
+        yield NavDrawerState(state.selectedItem, sortOption: event.sortOption);
+      }
     }
   }
 }

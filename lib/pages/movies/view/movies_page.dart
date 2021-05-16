@@ -6,10 +6,10 @@ import 'package:plibrary/navigation_drawer/navigation_drawer.dart';
 import 'package:plibrary/pages/item/view/item_page.dart';
 import 'package:plibrary/pages/movies/cubit/movies_cubit.dart';
 import 'package:plibrary/pages/new_item/view/new_item_page.dart';
+import 'package:plibrary/utils/item_sort_utils.dart';
 import 'package:shimmer/shimmer.dart';
 
-
-class MoviesPage extends StatefulWidget {
+class MoviesPage extends StatelessWidget {
   FloatingActionButton moviesFAB(BuildContext context) => FloatingActionButton(
         onPressed: () {
           Navigator.push(context, NewItemPage.route(NavItem.movies));
@@ -19,11 +19,6 @@ class MoviesPage extends StatefulWidget {
 
   MoviesPage({Key key}) : super(key: key);
 
-  @override
-  _MoviesPageState createState() => _MoviesPageState();
-}
-
-class _MoviesPageState extends State<MoviesPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -46,8 +41,15 @@ class _MoviesPageState extends State<MoviesPage> {
                         shimmerListItem,
                       ]);
                     default:
+                      var movies = snapshot.data;
+                      
+                      movies.sort(getSortingFunction(
+                          BlocProvider.of<NavDrawerBloc>(context)
+                              .state
+                              .sortOption));
+
                       return ListView(
-                        children: snapshot.data.map((Movie movie) {
+                        children: movies.map((Movie movie) {
                           return Dismissible(
                             key: Key(movie.uuid),
                             direction: DismissDirection.endToStart,

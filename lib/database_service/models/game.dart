@@ -36,6 +36,7 @@ class Game implements LibraryItem {
   final String description;
   final bool finished;
   final double score;
+  final DateTime timeAdded;
 
   const Game(
       {this.uuid,
@@ -44,7 +45,8 @@ class Game implements LibraryItem {
       this.genre,
       this.description,
       this.finished,
-      this.score});
+      this.score,
+      this.timeAdded});
 
   Game.fromMap(Map<String, dynamic> data)
       : this(
@@ -54,7 +56,8 @@ class Game implements LibraryItem {
             genre: gameGenreFromString(data['genre']),
             description: data['description'],
             finished: data['finished'],
-            score: data['score']);
+            score: data['score'],
+            timeAdded: DateTime.parse(data['time_added']));
 
   Map<String, dynamic> toMap() {
     return {
@@ -64,26 +67,27 @@ class Game implements LibraryItem {
       'genre': genre.toShortString(),
       'description': description,
       'finished': finished,
-      'score': score
+      'score': score,
+      'time_added': timeAdded.toString()
     };
   }
 
-  Game copyWith({
-    String title,
-    String studio,
-    String description,
-    GameGenre genre,
-    bool finished,
-    double score
-  }) {
+  Game copyWith(
+      {String title,
+      String studio,
+      String description,
+      GameGenre genre,
+      bool finished,
+      double score,
+      DateTime timeAdded}) {
     return Game(
-      uuid: this.uuid,
-      title: title ?? this.title,
-      studio: studio ?? this.studio,
-      description: description ?? this.description,
-      genre: genre ?? this.genre,
-      finished: finished ?? this.finished,
-      score: score ?? this.score,
-    );
+        uuid: this.uuid,
+        title: title ?? this.title,
+        studio: studio ?? this.studio,
+        description: description ?? this.description,
+        genre: genre ?? this.genre,
+        finished: finished ?? this.finished,
+        score: score ?? this.score,
+        timeAdded: timeAdded ?? this.timeAdded);
   }
 }

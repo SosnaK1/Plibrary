@@ -50,6 +50,7 @@ class Movie implements LibraryItem {
   final String description;
   final bool finished;
   final double score;
+  final DateTime timeAdded;
 
   const Movie(
       {this.uuid,
@@ -58,7 +59,8 @@ class Movie implements LibraryItem {
       this.genre,
       this.description,
       this.finished,
-      this.score});
+      this.score,
+      this.timeAdded});
 
   Movie.fromMap(Map<String, dynamic> data)
       : this(
@@ -68,7 +70,8 @@ class Movie implements LibraryItem {
             genre: movieGenreFromString(data['genre']),
             description: data['description'],
             finished: data['finished'],
-            score: data['score']);
+            score: data['score'],
+            timeAdded: DateTime.parse(data['time_added']));
 
   Map<String, dynamic> toMap() {
     return {
@@ -78,26 +81,27 @@ class Movie implements LibraryItem {
       'genre': genre.toShortString(),
       'description': description,
       'finished': finished,
-      'score': score
+      'score': score,
+      'time_added': timeAdded.toString()
     };
   }
 
-  Movie copyWith({
-    String title,
-    String director,
-    String description,
-    MovieGenre genre,
-    bool finished,
-    double score
-  }) {
+  Movie copyWith(
+      {String title,
+      String director,
+      String description,
+      MovieGenre genre,
+      bool finished,
+      double score,
+      DateTime timeAdded}) {
     return Movie(
-      uuid: this.uuid,
-      title: title ?? this.title,
-      director: director ?? this.director,
-      description: description ?? this.description,
-      genre: genre ?? this.genre,
-      finished: finished ?? this.finished,
-      score: score ?? this.score,
-    );
+        uuid: this.uuid,
+        title: title ?? this.title,
+        director: director ?? this.director,
+        description: description ?? this.description,
+        genre: genre ?? this.genre,
+        finished: finished ?? this.finished,
+        score: score ?? this.score,
+        timeAdded: timeAdded ?? this.timeAdded);
   }
 }
