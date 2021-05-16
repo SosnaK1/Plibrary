@@ -6,6 +6,7 @@ import 'package:plibrary/navigation_drawer/navigation_drawer.dart';
 import 'package:plibrary/pages/item/view/item_page.dart';
 import 'package:plibrary/pages/movies/cubit/movies_cubit.dart';
 import 'package:plibrary/pages/new_item/view/new_item_page.dart';
+import 'package:plibrary/themes.dart';
 import 'package:plibrary/utils/item_sort_utils.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,69 +22,159 @@ class MoviesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = TextEditingController();
+
     return BlocProvider(
         create: (context) => MoviesCubit(context.read<DatabaseRepository>()),
         child: BlocConsumer<MoviesCubit, MoviesState>(
             listener: (context, state) {},
             builder: (context, state) {
-              return StreamBuilder<List<Movie>>(
-                stream: state.moviesStream,
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Movie>> snapshot) {
-                  if (snapshot.hasError)
-                    return Text('Error: ${snapshot.error}');
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return Column(children: [
-                        LinearProgressIndicator(),
-                        shimmerListItem,
-                        shimmerListItem,
-                        shimmerListItem,
-                      ]);
-                    default:
-                      var movies = snapshot.data;
-                      
-                      movies.sort(getSortingFunction(
-                          BlocProvider.of<NavDrawerBloc>(context)
-                              .state
-                              .sortOption));
-
-                      return ListView(
-                        children: movies.map((Movie movie) {
-                          return Dismissible(
-                            key: Key(movie.uuid),
-                            direction: DismissDirection.endToStart,
-                            onDismissed: (direction) {
-                              if (direction == DismissDirection.endToStart) {
-                                snapshot.data.remove(movie);
+              return Column(
+                children: [
+                  if (context.read<NavDrawerBloc>().state.searchFieldRevealed)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 14),
+                      child: Stack(
+                        children: [
+                          BlocListener<NavDrawerBloc, NavDrawerState>(
+                            listenWhen: (a, b) =>
+                                a.searchFieldRevealed != b.searchFieldRevealed,
+                            listener: (context, state) {
+                              context
+                                  .read<MoviesCubit>()
+                                  .searchFilterChanged("");
+                            },
+                            child: TextFormField(
+                              controller: controller,
+                              onChanged: (String value) {
                                 context
                                     .read<MoviesCubit>()
-                                    .deleteMovieFromDB(movie);
-                              }
-                            },
-                            // TODO: confirmDismiss: ,
-                            background: Container(
-                                color: Colors.red,
-                                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                alignment: AlignmentDirectional.centerEnd,
-                                child: Icon(Icons.delete)),
-                            child: ListTile(
-                              onTap: () {
-                                Navigator.push(context, ItemPage.route(movie));
+                                    .searchFilterChanged(value);
                               },
-                              // trailing: movie.image != null
-                              //     ? Image.file(File(movie.image))
-                              //     : null,
-                              title: Text(movie.title),
-                              subtitle: Text(movie.director),
+                              cursorColor: Theme.of(context)
+                                  .textSelectionTheme
+                                  .cursorColor,
+                              decoration: InputDecoration(
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: accentColor),
+                                ),
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: accentColor),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: accentColor),
+                                ),
+                              ),
                             ),
-                          );
-                        }).toList(),
-                      );
-                  }
-                },
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                                onPressed: () {
+                                  context
+                                      .read<MoviesCubit>()
+                                      .searchFilterChanged("");
+                                  controller.clear();
+                                },
+                                icon: Icon(Icons.clear)),
+                          )
+                        ],
+                      ),
+                    ),
+                  Expanded(
+                    child: StreamBuilder<List<Movie>>(
+                      stream: state.moviesStream,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Movie>> snapshot) {
+                        if (snapshot.hasError)
+                          return Text('Error: ${snapshot.error}');
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return Column(children: [
+                              LinearProgressIndicator(),
+                              shimmerListItem,
+                              shimmerListItem,
+                              shimmerListItem,
+                            ]);
+                          default:
+                            var movies = snapshot.data;
+
+                            List<Movie> filteredMovies = [];
+
+                            if (state.searchFilter.isNotEmpty)
+                              filteredMovies =
+                                  filterMovies(movies, state.searchFilter);
+                            else
+                              filteredMovies = movies;
+
+                            filteredMovies.sort(getSortingFunction(
+                                BlocProvider.of<NavDrawerBloc>(context)
+                                    .state
+                                    .sortOption));
+
+                            return ListView(
+                              children: filteredMovies.map((Movie movie) {
+                                return Dismissible(
+                                  key: Key(movie.uuid),
+                                  direction: DismissDirection.endToStart,
+                                  onDismissed: (direction) {
+                                    if (direction ==
+                                        DismissDirection.endToStart) {
+                                      snapshot.data.remove(movie);
+                                      context
+                                          .read<MoviesCubit>()
+                                          .deleteMovieFromDB(movie);
+                                    }
+                                  },
+                                  // TODO: confirmDismiss: ,
+                                  background: Container(
+                                      color: Colors.red,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.0),
+                                      alignment: AlignmentDirectional.centerEnd,
+                                      child: Icon(Icons.delete)),
+                                  child: ListTile(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context, ItemPage.route(movie));
+                                    },
+                                    // trailing: movie.image != null
+                                    //     ? Image.file(File(movie.image))
+                                    //     : null,
+                                    title: Text(movie.title),
+                                    subtitle: Text(movie.director),
+                                  ),
+                                );
+                              }).toList(),
+                            );
+                        }
+                      },
+                    ),
+                  ),
+                ],
               );
             }));
+  }
+
+  List<Movie> filterMovies(List<Movie> movies, String filter) {
+    List<Movie> filteredMovies = [];
+
+    for (var i = 0; i < movies.length; i++) {
+      if (movies[i].title.contains(filter)) {
+        filteredMovies.add(movies[i]);
+        continue;
+      }
+      if (movies[i].director.contains(filter)) {
+        filteredMovies.add(movies[i]);
+        continue;
+      }
+      if (movies[i].genre.toShortString().contains(filter)) {
+        filteredMovies.add(movies[i]);
+        continue;
+      }
+    }
+    return filteredMovies;
   }
 }
 

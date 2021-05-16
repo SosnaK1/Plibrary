@@ -15,3 +15,5 @@ class ChangeSortOption extends NavDrawerEvent {
   final ItemSortOption sortOption;
   const ChangeSortOption(this.sortOption);
 }
+
+class ChangeSearchFieldVisibility extends NavDrawerEvent {}

@@ -51,7 +51,7 @@ class _DrawerContainerState extends State<DrawerContainer> {
                     BlocProvider.of<AppBloc>(context).state.user.email),
                 appBar: AppBar(
                   title: Text(_titleForState(state.selectedItem)),
-                  actions: [_appBarActionForState(state.selectedItem, context)],
+                  actions: _appBarActionsForState(state.selectedItem, context),
                 ),
                 floatingActionButton: _fabForState(state.selectedItem, context),
                 body: AnimatedSwitcher(
@@ -136,34 +136,41 @@ FloatingActionButton _fabForState(NavItem state, BuildContext context) {
   }
 }
 
-Widget _appBarActionForState(NavItem state, BuildContext context) {
+List<Widget> _appBarActionsForState(NavItem state, BuildContext context) {
   switch (state) {
     case NavItem.home:
     case NavItem.settings:
-      return Container();
+      return [];
     case NavItem.movies:
     case NavItem.series:
     case NavItem.books:
     case NavItem.games:
-      return PopupMenuButton(
-        icon: Icon(Icons.sort),
-        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-          _getPopupMenuItem(
-              context, Icons.arrow_upward, "Name", ItemSortOption.NameInc),
-          _getPopupMenuItem(
-              context, Icons.arrow_downward, "Name", ItemSortOption.NameDec),
-          PopupMenuDivider(),
-          _getPopupMenuItem(
-              context, Icons.arrow_upward, "Score", ItemSortOption.ScoreInc),
-          _getPopupMenuItem(
-              context, Icons.arrow_downward, "Score", ItemSortOption.ScoreDec),
-          PopupMenuDivider(),
-          _getPopupMenuItem(
-              context, Icons.arrow_upward, "Date", ItemSortOption.DateInc),
-          _getPopupMenuItem(
-              context, Icons.arrow_downward, "Date", ItemSortOption.DateDec),
-        ],
-      );
+      return [
+        IconButton(
+            onPressed: () {
+              context.read<NavDrawerBloc>().add(ChangeSearchFieldVisibility());
+            },
+            icon: Icon(Icons.search)),
+        PopupMenuButton(
+          icon: Icon(Icons.sort),
+          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+            _getPopupMenuItem(
+                context, Icons.arrow_upward, "Name", ItemSortOption.NameInc),
+            _getPopupMenuItem(
+                context, Icons.arrow_downward, "Name", ItemSortOption.NameDec),
+            PopupMenuDivider(),
+            _getPopupMenuItem(
+                context, Icons.arrow_upward, "Score", ItemSortOption.ScoreInc),
+            _getPopupMenuItem(context, Icons.arrow_downward, "Score",
+                ItemSortOption.ScoreDec),
+            PopupMenuDivider(),
+            _getPopupMenuItem(
+                context, Icons.arrow_upward, "Date", ItemSortOption.DateInc),
+            _getPopupMenuItem(
+                context, Icons.arrow_downward, "Date", ItemSortOption.DateDec),
+          ],
+        )
+      ];
   }
 
   return null;
