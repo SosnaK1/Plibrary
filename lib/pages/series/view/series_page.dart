@@ -100,6 +100,11 @@ class SeriesPage extends StatelessWidget {
                           default:
                             var series = snapshot.data;
 
+                            if (series.length == 0)
+                              return Center(
+                                child: Text("Empty list"),
+                              );
+
                             List<Series> filteredSeries = [];
 
                             if (state.searchFilter.isNotEmpty)

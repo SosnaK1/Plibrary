@@ -51,7 +51,7 @@ class NavDrawerWidget extends StatelessWidget {
         return _makePageItem(data, state);
         break;
       case NavigationItemType.divider:
-        return Divider();
+        return Divider(thickness: 2, height: 2);
         break;
       case NavigationItemType.logout:
         return _makeLogoutItem(data);
@@ -63,7 +63,7 @@ class NavDrawerWidget extends StatelessWidget {
   Widget _makeHeaderItem() => UserAccountsDrawerHeader(
         accountName: Text("", style: TextStyle(color: Colors.white)),
         accountEmail: Text(accountEmail, style: TextStyle(color: Colors.white, fontSize: 22)),
-        decoration: BoxDecoration(color: Colors.blueGrey),
+        decoration: BoxDecoration(color: accentColorDark),
         currentAccountPicture: CircleAvatar(
           backgroundColor: Colors.white,
           foregroundColor: accentColor,
@@ -75,7 +75,7 @@ class NavDrawerWidget extends StatelessWidget {
       );
 
   Widget _makePageItem(_NavigationItem data, NavDrawerState state) => Card(
-        color: data.item == state.selectedItem ? accentColor : primaryColor,
+        color: data.item == state.selectedItem ? accentColorLight : primaryColor,
         shape: ContinuousRectangleBorder(borderRadius: BorderRadius.zero),
         // So we see the selected highlight
         borderOnForeground: true,
@@ -87,16 +87,16 @@ class NavDrawerWidget extends StatelessWidget {
               data.title,
               style: TextStyle(
                 color: data.item == state.selectedItem
-                    ? Colors.blue
-                    : Colors.blueGrey,
+                    ? Colors.black
+                    : Colors.white,
               ),
             ),
             leading: Icon(
               data.icon,
               // if it's selected change the color
               color: data.item == state.selectedItem
-                  ? Colors.blue
-                  : Colors.blueGrey,
+                  ? Colors.black
+                  : Colors.white,
             ),
             onTap: () => _handleItemClick(context, data.item),
           ),
@@ -119,9 +119,13 @@ class NavDrawerWidget extends StatelessWidget {
           builder: (BuildContext context) => ListTile(
             title: Text(
               data.title,
+              style: TextStyle(
+                color: Colors.redAccent
+              ),
             ),
             leading: Icon(
               data.icon,
+              color: Colors.redAccent,
             ),
             onTap: () => _handleLogoutClick(context),
           ),

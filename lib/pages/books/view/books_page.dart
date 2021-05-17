@@ -100,6 +100,11 @@ class BooksPage extends StatelessWidget {
                           default:
                             var books = snapshot.data;
 
+                            if (books.length == 0)
+                              return Center(
+                                child: Text("Empty list"),
+                              );
+
                             List<Book> filteredBooks = [];
 
                             if (state.searchFilter.isNotEmpty)

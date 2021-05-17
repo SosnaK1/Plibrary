@@ -12,13 +12,12 @@ import 'package:shimmer/shimmer.dart';
 import '../../../themes.dart';
 
 class GamesPage extends StatelessWidget {
-
   FloatingActionButton gamesFAB(BuildContext context) => FloatingActionButton(
-    onPressed: () {
-      Navigator.push(context, NewItemPage.route(NavItem.games));
-    },
-    child: Icon(Icons.add),
-  );
+        onPressed: () {
+          Navigator.push(context, NewItemPage.route(NavItem.games));
+        },
+        child: Icon(Icons.add),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +99,11 @@ class GamesPage extends StatelessWidget {
                           default:
                             var games = snapshot.data;
 
+                            if (games.length == 0)
+                              return Center(
+                                child: Text("Empty list"),
+                              );
+
                             List<Game> filteredGames = [];
 
                             if (state.searchFilter.isNotEmpty)
@@ -137,7 +141,8 @@ class GamesPage extends StatelessWidget {
                                             AlignmentDirectional.centerEnd,
                                         child: Icon(Icons.delete)),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
                                       child: ListTile(
                                         onTap: () {
                                           Navigator.push(context,
@@ -149,17 +154,23 @@ class GamesPage extends StatelessWidget {
                                             : Padding(
                                                 padding: const EdgeInsets.only(
                                                     right: 8),
-                                                child: Icon(Icons.visibility_off),
+                                                child:
+                                                    Icon(Icons.visibility_off),
                                               ),
-                                        title: Text(filteredGames[i].title, style: TextStyle(fontSize: 20),),
-                                        subtitle:
-                                            Text(filteredGames[i].studio),
+                                        title: Text(
+                                          filteredGames[i].title,
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        subtitle: Text(filteredGames[i].studio),
                                       ),
                                     ),
                                   );
                                 },
                                 separatorBuilder: (context, index) {
-                                  return Divider(color: Colors.grey[400], height: 0,);
+                                  return Divider(
+                                    color: Colors.grey[400],
+                                    height: 0,
+                                  );
                                 },
                                 itemCount: filteredGames.length);
                         }
@@ -183,7 +194,11 @@ class GamesPage extends StatelessWidget {
         filteredGames.add(games[i]);
         continue;
       }
-      if (games[i].genre.toShortString().toUpperCase().contains(filter.toUpperCase())) {
+      if (games[i]
+          .genre
+          .toShortString()
+          .toUpperCase()
+          .contains(filter.toUpperCase())) {
         filteredGames.add(games[i]);
         continue;
       }
