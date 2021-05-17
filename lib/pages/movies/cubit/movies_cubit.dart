@@ -5,6 +5,7 @@ import 'package:plibrary/database_service/models/movie.dart';
 
 part 'movies_state.dart';
 
+// TODO: Turn into one cubit?
 class MoviesCubit extends Cubit<MoviesState> {
   MoviesCubit(this._databaseRepository)
       : super(MoviesState(moviesStream: _databaseRepository.getMovies()));

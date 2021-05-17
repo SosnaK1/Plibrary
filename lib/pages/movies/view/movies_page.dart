@@ -136,27 +136,30 @@ class MoviesPage extends StatelessWidget {
                                         alignment:
                                             AlignmentDirectional.centerEnd,
                                         child: Icon(Icons.delete)),
-                                    child: ListTile(
-                                      onTap: () {
-                                        Navigator.push(context,
-                                            ItemPage.route(filteredMovies[i]));
-                                      },
-                                      trailing: filteredMovies[i].finished
-                                          ? _getTrailingWidget(
-                                              filteredMovies[i])
-                                          : Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 8),
-                                              child: Icon(Icons.visibility_off),
-                                            ),
-                                      title: Text(filteredMovies[i].title, style: TextStyle(fontSize: 20),),
-                                      subtitle:
-                                          Text(filteredMovies[i].director),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 5),
+                                      child: ListTile(
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              ItemPage.route(filteredMovies[i]));
+                                        },
+                                        trailing: filteredMovies[i].finished
+                                            ? _getTrailingWidget(
+                                                filteredMovies[i])
+                                            : Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8),
+                                                child: Icon(Icons.visibility_off),
+                                              ),
+                                        title: Text(filteredMovies[i].title, style: TextStyle(fontSize: 20),),
+                                        subtitle:
+                                            Text(filteredMovies[i].director),
+                                      ),
                                     ),
                                   );
                                 },
                                 separatorBuilder: (context, index) {
-                                  return Divider(color: Colors.grey[400],);
+                                  return Divider(color: Colors.grey[400], height: 0,);
                                 },
                                 itemCount: filteredMovies.length);
                         }

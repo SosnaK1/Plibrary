@@ -1,10 +1,18 @@
 part of 'books_cubit.dart';
 
-abstract class BooksState extends Equatable {
-  const BooksState();
+class BooksState extends Equatable {
+  const BooksState({this.booksStream, this.searchFilter = ""});
+
+  final Stream<List<Book>> booksStream;
+  final String searchFilter;
 
   @override
-  List<Object> get props => [];
-}
+  List<Object> get props => [booksStream, searchFilter];
 
-class BooksInitial extends BooksState {}
+  BooksState copyWith(
+      {Stream<List<Book>> booksStream, String searchFilter}) {
+    return BooksState(
+        booksStream: booksStream ?? this.booksStream,
+        searchFilter: searchFilter ?? this.searchFilter);
+  }
+}

@@ -1,10 +1,18 @@
 part of 'games_cubit.dart';
 
-abstract class GamesState extends Equatable {
-  const GamesState();
+class GamesState extends Equatable {
+  const GamesState({this.gamesStream, this.searchFilter = ""});
+
+  final Stream<List<Game>> gamesStream;
+  final String searchFilter;
 
   @override
-  List<Object> get props => [];
-}
+  List<Object> get props => [gamesStream, searchFilter];
 
-class GamesInitial extends GamesState {}
+  GamesState copyWith(
+      {Stream<List<Game>> gamesStream, String searchFilter}) {
+    return GamesState(
+        gamesStream: gamesStream ?? this.gamesStream,
+        searchFilter: searchFilter ?? this.searchFilter);
+  }
+}

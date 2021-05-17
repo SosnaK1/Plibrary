@@ -79,6 +79,7 @@ class ItemCubit extends Cubit<ItemState> {
     if (state.item.title.isEmpty) return;
 
     await _databaseRepository.addNewItem(state.item);
+    emit(state.copyWith(formModified: false));
   }
 
   void dialogTitleChanged(String value) {
