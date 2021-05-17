@@ -10,7 +10,7 @@ class MainLogoHero extends StatelessWidget {
     return Hero(
         tag: "main-logo",
         child: Image.asset(
-          "images/PLibrary_logo.png",
+          "images/logo1.png",
           width: size,
           height: size,
         ));

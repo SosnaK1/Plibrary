@@ -62,11 +62,11 @@ class NavDrawerWidget extends StatelessWidget {
 
   Widget _makeHeaderItem() => UserAccountsDrawerHeader(
         accountName: Text("", style: TextStyle(color: Colors.white)),
-        accountEmail: Text(accountEmail, style: TextStyle(color: Colors.white)),
+        accountEmail: Text(accountEmail, style: TextStyle(color: Colors.white, fontSize: 22)),
         decoration: BoxDecoration(color: Colors.blueGrey),
         currentAccountPicture: CircleAvatar(
           backgroundColor: Colors.white,
-          foregroundColor: Colors.amber,
+          foregroundColor: accentColor,
           child: Icon(
             Icons.person,
             size: 54,

@@ -38,7 +38,6 @@ class DatabaseRepository {
         .delete();
   }
 
-  
   Stream<List<Movie>> getMovies() {
     return _firestore
         .collection('users')
@@ -89,5 +88,64 @@ class DatabaseRepository {
           .map((document) => Game.fromMap(document.data()))
           .toList();
     });
+  }
+
+  void removeAllMovies() {
+    _firestore
+        .collection('users')
+        .doc(_authenticationRepository.currentUser.id)
+        .collection('movies')
+        .snapshots()
+        .forEach((element) {
+      for (QueryDocumentSnapshot snapshot in element.docs) {
+        snapshot.reference.delete();
+      }
+    });
+  }
+
+  void removeAllSeries() {
+    _firestore
+        .collection('users')
+        .doc(_authenticationRepository.currentUser.id)
+        .collection('series')
+        .snapshots()
+        .forEach((element) {
+      for (QueryDocumentSnapshot snapshot in element.docs) {
+        snapshot.reference.delete();
+      }
+    });
+  }
+
+  void removeAllBooks() {
+    _firestore
+        .collection('users')
+        .doc(_authenticationRepository.currentUser.id)
+        .collection('books')
+        .snapshots()
+        .forEach((element) {
+      for (QueryDocumentSnapshot snapshot in element.docs) {
+        snapshot.reference.delete();
+      }
+    });
+  }
+
+  void removeAllGames() {
+    _firestore
+        .collection('users')
+        .doc(_authenticationRepository.currentUser.id)
+        .collection('games')
+        .snapshots()
+        .forEach((element) {
+      for (QueryDocumentSnapshot snapshot in element.docs) {
+        snapshot.reference.delete();
+      }
+    });
+  }
+
+  void removeAllData() {
+    removeAllMovies();
+    removeAllSeries();
+    removeAllBooks();
+    removeAllGames();
   }
 }
