@@ -74,7 +74,7 @@ class ItemCubit extends Cubit<ItemState> {
     }
   }
 
-  void saveChanges() async {
+  Future<void> saveChanges() async {
     // TODO: Show error toast
     if (state.item.title.isEmpty) return;
 

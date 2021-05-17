@@ -39,8 +39,10 @@ class ItemPage extends StatelessWidget {
                       icon: Icon(Icons.edit))
                 ],
               ),
-              body: Center(
+              body: SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: 70),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(height: 20),
                     GestureDetector(
@@ -52,8 +54,11 @@ class ItemPage extends StatelessWidget {
                               "Title",
                               EditableFieldType.title);
                         },
-                        child: Text(getItemTitle(state.item),
-                            style: TextStyle(fontSize: 30))),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Text(getItemTitle(state.item),
+                              style: TextStyle(fontSize: 30)),
+                        )),
                     SizedBox(height: 10),
                     Divider(thickness: 1.5),
                     SizedBox(height: 10),
@@ -115,13 +120,15 @@ class ItemPage extends StatelessWidget {
                         },
                         child: Row(
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Text(getItemDescription(state.item),
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.white60)),
-                            )
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: Text(getItemDescription(state.item),
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.white60)),
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -129,11 +136,11 @@ class ItemPage extends StatelessWidget {
                       TextButton(
                           onPressed: () {
                             displayTextInputDialog(
-                              context,
-                              state,
-                              state.item.description,
-                              "Description",
-                              EditableFieldType.description);
+                                context,
+                                state,
+                                state.item.description,
+                                "Description",
+                                EditableFieldType.description);
                           },
                           child: Text("Add description")),
                     SizedBox(height: 20),
@@ -145,8 +152,9 @@ class ItemPage extends StatelessWidget {
                   ? null
                   : FloatingActionButton(
                       child: Icon(Icons.save),
-                      onPressed: () {
-                        context.read<ItemCubit>().saveChanges();
+                      onPressed: () async {
+                        await context.read<ItemCubit>().saveChanges();
+                        showSuccessToast(context, "Saved");
                       }),
             );
           },
@@ -208,6 +216,11 @@ Widget seenScoreWidget(BuildContext context, ItemState state) {
             onChanged: (double newValue) {
               context.read<ItemCubit>().scoreChanged(newValue);
             }),
+      if (state.item.finished)
+        Text(
+          state.item.score.toInt().toString() + "/5",
+          style: TextStyle(fontSize: 22),
+        )
     ],
   );
 }

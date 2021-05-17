@@ -113,41 +113,52 @@ class MoviesPage extends StatelessWidget {
                                     .state
                                     .sortOption));
 
-                            return ListView(
-                              children: filteredMovies.map((Movie movie) {
-                                return Dismissible(
-                                  key: Key(movie.uuid),
-                                  direction: DismissDirection.endToStart,
-                                  onDismissed: (direction) {
-                                    if (direction ==
-                                        DismissDirection.endToStart) {
-                                      snapshot.data.remove(movie);
-                                      context
-                                          .read<MoviesCubit>()
-                                          .deleteMovieFromDB(movie);
-                                    }
-                                  },
-                                  // TODO: confirmDismiss: ,
-                                  background: Container(
-                                      color: Colors.red,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      alignment: AlignmentDirectional.centerEnd,
-                                      child: Icon(Icons.delete)),
-                                  child: ListTile(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context, ItemPage.route(movie));
+                            return ListView.separated(
+                                itemBuilder: (context, i) {
+                                  return Dismissible(
+                                    key: Key(filteredMovies[i].uuid),
+                                    direction: DismissDirection.endToStart,
+                                    onDismissed: (direction) {
+                                      if (direction ==
+                                          DismissDirection.endToStart) {
+                                        snapshot.data.remove(filteredMovies[i]);
+                                        context
+                                            .read<MoviesCubit>()
+                                            .deleteMovieFromDB(
+                                                filteredMovies[i]);
+                                      }
                                     },
-                                    // trailing: movie.image != null
-                                    //     ? Image.file(File(movie.image))
-                                    //     : null,
-                                    title: Text(movie.title),
-                                    subtitle: Text(movie.director),
-                                  ),
-                                );
-                              }).toList(),
-                            );
+                                    // TODO: confirmDismiss: ,
+                                    background: Container(
+                                        color: Colors.red,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        alignment:
+                                            AlignmentDirectional.centerEnd,
+                                        child: Icon(Icons.delete)),
+                                    child: ListTile(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            ItemPage.route(filteredMovies[i]));
+                                      },
+                                      trailing: filteredMovies[i].finished
+                                          ? _getTrailingWidget(
+                                              filteredMovies[i])
+                                          : Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 8),
+                                              child: Icon(Icons.visibility_off),
+                                            ),
+                                      title: Text(filteredMovies[i].title, style: TextStyle(fontSize: 20),),
+                                      subtitle:
+                                          Text(filteredMovies[i].director),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return Divider(color: Colors.grey[400],);
+                                },
+                                itemCount: filteredMovies.length);
                         }
                       },
                     ),
@@ -211,3 +222,28 @@ Widget shimmerListItem = Padding(
         ),
       )
     ]));
+
+Widget _getTrailingWidget(Movie movie) {
+  return Container(
+    width: 40,
+    height: 40,
+    decoration: BoxDecoration(
+        color: _getColorByScore(movie.score.toInt()),
+        borderRadius: BorderRadius.circular(10)),
+    child: Center(
+      child: Text(
+        movie.score.toInt().toString(),
+        style: TextStyle(fontSize: 24, color: Colors.black),
+      ),
+    ),
+  );
+}
+
+Color _getColorByScore(int score) {
+  if (score == 5) return Colors.green;
+  if (score == 4) return Colors.teal[400];
+  if (score == 3) return Colors.yellow;
+  if (score == 2) return Colors.orange;
+  if (score == 1) return Colors.red;
+  return Colors.red[900];
+}
