@@ -1,16 +1,7 @@
-# plibrary
+# plibrary - (University Project)
 
-A new Flutter project.
+Simple multimedia library app.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Zrzut ekranu 2021-05-18 o 15 01 29](https://user-images.githubusercontent.com/20880200/118662107-09d63780-b7f0-11eb-8860-86d5119796f9.png)
+![Zrzut ekranu 2021-05-18 o 15 01 44](https://user-images.githubusercontent.com/20880200/118662200-1ce90780-b7f0-11eb-843a-fbab93633b41.png)
+![Zrzut ekranu 2021-05-18 o 15 01 55](https://user-images.githubusercontent.com/20880200/118662248-26726f80-b7f0-11eb-81ca-eaff2f4f0a3e.png)
