@@ -105,6 +105,9 @@ class _HomePageState extends State<HomePage> {
                                             thickness: 4,
                                           ),
 
+                                          Text("Scores", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                                          SizedBox(height: 20,),
+
                                           // Bar chart
                                           Container(
                                             height: 300,
@@ -121,6 +124,9 @@ class _HomePageState extends State<HomePage> {
                                             color: Colors.grey[700],
                                             thickness: 4,
                                           ),
+
+                                          Text("Items Count", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                                          SizedBox(height: 20,),
 
                                           // Pie chart
                                           if (snapshotMovies.data != null)

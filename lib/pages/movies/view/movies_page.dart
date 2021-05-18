@@ -100,6 +100,11 @@ class MoviesPage extends StatelessWidget {
                           default:
                             var movies = snapshot.data;
 
+                            if (movies.length == 0)
+                              return Center(
+                                child: Text("Empty list"),
+                              );
+
                             List<Movie> filteredMovies = [];
 
                             if (state.searchFilter.isNotEmpty)
@@ -121,7 +126,6 @@ class MoviesPage extends StatelessWidget {
                                     onDismissed: (direction) {
                                       if (direction ==
                                           DismissDirection.endToStart) {
-                                        snapshot.data.remove(filteredMovies[i]);
                                         context
                                             .read<MoviesCubit>()
                                             .deleteMovieFromDB(
@@ -137,11 +141,14 @@ class MoviesPage extends StatelessWidget {
                                             AlignmentDirectional.centerEnd,
                                         child: Icon(Icons.delete)),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
                                       child: ListTile(
                                         onTap: () {
-                                          Navigator.push(context,
-                                              ItemPage.route(filteredMovies[i]));
+                                          Navigator.push(
+                                              context,
+                                              ItemPage.route(
+                                                  filteredMovies[i]));
                                         },
                                         trailing: filteredMovies[i].finished
                                             ? _getTrailingWidget(
@@ -149,9 +156,13 @@ class MoviesPage extends StatelessWidget {
                                             : Padding(
                                                 padding: const EdgeInsets.only(
                                                     right: 8),
-                                                child: Icon(Icons.visibility_off),
+                                                child:
+                                                    Icon(Icons.visibility_off),
                                               ),
-                                        title: Text(filteredMovies[i].title, style: TextStyle(fontSize: 20),),
+                                        title: Text(
+                                          filteredMovies[i].title,
+                                          style: TextStyle(fontSize: 20),
+                                        ),
                                         subtitle:
                                             Text(filteredMovies[i].director),
                                       ),
@@ -159,7 +170,10 @@ class MoviesPage extends StatelessWidget {
                                   );
                                 },
                                 separatorBuilder: (context, index) {
-                                  return Divider(color: Colors.grey[400], height: 0,);
+                                  return Divider(
+                                    color: Colors.grey[400],
+                                    height: 0,
+                                  );
                                 },
                                 itemCount: filteredMovies.length);
                         }

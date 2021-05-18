@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:plibrary/database_service/models.dart';
 import 'package:plibrary/pages/item/cubit/item_cubit.dart';
+import 'package:plibrary/themes.dart';
 import 'package:plibrary/widgets/default_text_form_field.dart';
 
 enum EditableFieldType { title, author, genre, description }
@@ -32,21 +33,31 @@ Future<void> displayTextInputDialog(BuildContext context, ItemState state,
                   },
                   value: initialValue,
                   items: getDropdownMenuItems(state)),
-          actions: fieldType == EditableFieldType.genre ? null : <Widget>[
-            ElevatedButton(
-              child: Text('CANCEL'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            ElevatedButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.pop(context);
-                context.read<ItemCubit>().dialogConfirmedChange(fieldType);
-              },
-            ),
-          ],
+          actions: fieldType == EditableFieldType.genre
+              ? null
+              : <Widget>[
+                  ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(accentColorDark)),
+                    child: Text('CANCEL'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(accentColorDark)),
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      context
+                          .read<ItemCubit>()
+                          .dialogConfirmedChange(fieldType);
+                    },
+                  ),
+                ],
         );
       });
 }

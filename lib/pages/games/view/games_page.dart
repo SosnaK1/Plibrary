@@ -125,7 +125,6 @@ class GamesPage extends StatelessWidget {
                                     onDismissed: (direction) {
                                       if (direction ==
                                           DismissDirection.endToStart) {
-                                        snapshot.data.remove(filteredGames[i]);
                                         context
                                             .read<GamesCubit>()
                                             .deleteMovieFromDB(

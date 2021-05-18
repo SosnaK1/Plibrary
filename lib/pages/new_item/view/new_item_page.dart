@@ -52,52 +52,54 @@ class _NewItemPageState extends State<NewItemPage> {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    DropdownButton<String>(
-                      hint: Text("Item Type"),
-                      onChanged: (String newValue) {
-                        context
-                            .read<NewItemCubit>()
-                            .selectedItemTypeChanged(newValue);
-                      },
-                      value: state.selectedItemType,
-                      items: NewItemState.itemTypes
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    if (state.selectedItemType == "Movies")
-                      movieFields(context, state),
-                    if (state.selectedItemType == "Series")
-                      seriesFields(context, state),
-                    if (state.selectedItemType == "Books")
-                      bookFields(context, state),
-                    if (state.selectedItemType == "Games")
-                      gameFields(context, state),
-                    seenScoreWidget(context, state),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    MainButton(
-                      child: !state.status.isSubmissionInProgress
-                          ? Text("Add".toUpperCase())
-                          : SpinKitWave(color: accentColorDark, size: 30.0),
-                      onPressed: () async {
-                        if (!state.status.isValid) {
-                          showErrorToast(context, "Please fill all the fields");
-                        } else if (state.status.isValidated) {
-                          context.read<NewItemCubit>().newItemSubmitted();
-                        }
-                      },
-                    )
-                  ],
+                child: Form(
+                  child: Column(
+                    children: [
+                      DropdownButton<String>(
+                        hint: Text("Item Type"),
+                        onChanged: (String newValue) {
+                          context
+                              .read<NewItemCubit>()
+                              .selectedItemTypeChanged(newValue);
+                        },
+                        value: state.selectedItemType,
+                        items: NewItemState.itemTypes
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      if (state.selectedItemType == "Movies")
+                        movieFields(context, state),
+                      if (state.selectedItemType == "Series")
+                        seriesFields(context, state),
+                      if (state.selectedItemType == "Books")
+                        bookFields(context, state),
+                      if (state.selectedItemType == "Games")
+                        gameFields(context, state),
+                      seenScoreWidget(context, state),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      MainButton(
+                        child: !state.status.isSubmissionInProgress
+                            ? Text("Add".toUpperCase())
+                            : SpinKitWave(color: accentColorDark, size: 30.0),
+                        onPressed: () async {
+                          if (!state.status.isValid) {
+                            showErrorToast(context, "Please fill all the fields");
+                          } else if (state.status.isValidated) {
+                            context.read<NewItemCubit>().newItemSubmitted();
+                          }
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

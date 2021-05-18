@@ -12,13 +12,12 @@ import 'package:shimmer/shimmer.dart';
 import '../../../themes.dart';
 
 class SeriesPage extends StatelessWidget {
-
   FloatingActionButton seriesFAB(BuildContext context) => FloatingActionButton(
-    onPressed: () {
-      Navigator.push(context, NewItemPage.route(NavItem.series));
-    },
-    child: Icon(Icons.add),
-  );
+        onPressed: () {
+          Navigator.push(context, NewItemPage.route(NavItem.series));
+        },
+        child: Icon(Icons.add),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -124,14 +123,10 @@ class SeriesPage extends StatelessWidget {
                                     key: Key(filteredSeries[i].uuid),
                                     direction: DismissDirection.endToStart,
                                     onDismissed: (direction) {
-                                      if (direction ==
-                                          DismissDirection.endToStart) {
-                                        snapshot.data.remove(filteredSeries[i]);
-                                        context
-                                            .read<SeriesCubit>()
-                                            .deleteSeriesFromDB(
-                                                filteredSeries[i]);
-                                      }
+                                      context
+                                          .read<SeriesCubit>()
+                                          .deleteSeriesFromDB(
+                                              filteredSeries[i]);
                                     },
                                     // TODO: confirmDismiss: ,
                                     background: Container(
@@ -142,11 +137,14 @@ class SeriesPage extends StatelessWidget {
                                             AlignmentDirectional.centerEnd,
                                         child: Icon(Icons.delete)),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
                                       child: ListTile(
                                         onTap: () {
-                                          Navigator.push(context,
-                                              ItemPage.route(filteredSeries[i]));
+                                          Navigator.push(
+                                              context,
+                                              ItemPage.route(
+                                                  filteredSeries[i]));
                                         },
                                         trailing: filteredSeries[i].finished
                                             ? _getTrailingWidget(
@@ -154,9 +152,13 @@ class SeriesPage extends StatelessWidget {
                                             : Padding(
                                                 padding: const EdgeInsets.only(
                                                     right: 8),
-                                                child: Icon(Icons.visibility_off),
+                                                child:
+                                                    Icon(Icons.visibility_off),
                                               ),
-                                        title: Text(filteredSeries[i].title, style: TextStyle(fontSize: 20),),
+                                        title: Text(
+                                          filteredSeries[i].title,
+                                          style: TextStyle(fontSize: 20),
+                                        ),
                                         subtitle:
                                             Text(filteredSeries[i].director),
                                       ),
@@ -164,7 +166,10 @@ class SeriesPage extends StatelessWidget {
                                   );
                                 },
                                 separatorBuilder: (context, index) {
-                                  return Divider(color: Colors.grey[400], height: 0,);
+                                  return Divider(
+                                    color: Colors.grey[400],
+                                    height: 0,
+                                  );
                                 },
                                 itemCount: filteredSeries.length);
                         }
@@ -188,7 +193,11 @@ class SeriesPage extends StatelessWidget {
         filteredSeries.add(series[i]);
         continue;
       }
-      if (series[i].genre.toShortString().toUpperCase().contains(filter.toUpperCase())) {
+      if (series[i]
+          .genre
+          .toShortString()
+          .toUpperCase()
+          .contains(filter.toUpperCase())) {
         filteredSeries.add(series[i]);
         continue;
       }

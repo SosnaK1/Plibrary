@@ -12,13 +12,12 @@ import 'package:shimmer/shimmer.dart';
 import '../../../themes.dart';
 
 class BooksPage extends StatelessWidget {
-
   FloatingActionButton booksFAB(BuildContext context) => FloatingActionButton(
-    onPressed: () {
-      Navigator.push(context, NewItemPage.route(NavItem.books));
-    },
-    child: Icon(Icons.add),
-  );
+        onPressed: () {
+          Navigator.push(context, NewItemPage.route(NavItem.books));
+        },
+        child: Icon(Icons.add),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -126,11 +125,9 @@ class BooksPage extends StatelessWidget {
                                     onDismissed: (direction) {
                                       if (direction ==
                                           DismissDirection.endToStart) {
-                                        snapshot.data.remove(filteredBooks[i]);
                                         context
                                             .read<BooksCubit>()
-                                            .deleteBookFromDB(
-                                                filteredBooks[i]);
+                                            .deleteBookFromDB(filteredBooks[i]);
                                       }
                                     },
                                     // TODO: confirmDismiss: ,
@@ -142,7 +139,8 @@ class BooksPage extends StatelessWidget {
                                             AlignmentDirectional.centerEnd,
                                         child: Icon(Icons.delete)),
                                     child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
                                       child: ListTile(
                                         onTap: () {
                                           Navigator.push(context,
@@ -154,17 +152,23 @@ class BooksPage extends StatelessWidget {
                                             : Padding(
                                                 padding: const EdgeInsets.only(
                                                     right: 8),
-                                                child: Icon(Icons.visibility_off),
+                                                child:
+                                                    Icon(Icons.visibility_off),
                                               ),
-                                        title: Text(filteredBooks[i].title, style: TextStyle(fontSize: 20),),
-                                        subtitle:
-                                            Text(filteredBooks[i].author),
+                                        title: Text(
+                                          filteredBooks[i].title,
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        subtitle: Text(filteredBooks[i].author),
                                       ),
                                     ),
                                   );
                                 },
                                 separatorBuilder: (context, index) {
-                                  return Divider(color: Colors.grey[400], height: 0,);
+                                  return Divider(
+                                    color: Colors.grey[400],
+                                    height: 0,
+                                  );
                                 },
                                 itemCount: filteredBooks.length);
                         }
@@ -188,7 +192,11 @@ class BooksPage extends StatelessWidget {
         filteredBooks.add(books[i]);
         continue;
       }
-      if (books[i].genre.toShortString().toUpperCase().contains(filter.toUpperCase())) {
+      if (books[i]
+          .genre
+          .toShortString()
+          .toUpperCase()
+          .contains(filter.toUpperCase())) {
         filteredBooks.add(books[i]);
         continue;
       }
